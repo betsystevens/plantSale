@@ -1,0 +1,78 @@
+html {
+	font-family: 'helvetica neue', sans-serif;
+	font-size: 10px;
+	background: url(topographyOpace.svg);
+	background-color: #91A8D0;
+}
+
+body {
+	margin: 30px;
+	font-size: 1.8rem;
+}
+
+.container {
+	display: flex;
+	height: 100vh;
+	justify-content: center;
+	align-items: center;
+}
+
+form {
+	display: flex;
+	flex-direction: column;
+	height: 200px;
+	width: 260px;
+	justify-content: space-around;
+	align-items: space-around;
+	
+}
+.outer {
+	padding: 20px;
+}
+
+.inner {
+	background-color: #dedede;
+}
+form {
+	padding: 20px;
+}
+
+label + input {
+	display: inline-block;
+	padding: 1rem 2rem;
+	font-size: 1.6rem;
+}
+
+input[type="submit"] {
+    display: inline-block;
+    border: none;
+    padding: 1rem 2rem;
+    margin: 0;
+    margin-top: 20px;
+    text-decoration: none;
+    background: #91A8D0;
+    color: #000000;
+    font-family: sans-serif;
+    font-size: 1.6rem;
+    cursor: pointer;
+    text-align: center;
+    transition: background 250ms ease-in-out, 
+                transform 150ms ease;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+input[type="submit"]:hover,
+input[type="submit"]:focus {
+    background: #0053ba;
+    color: #fff;
+}
+
+input[type="submit"]:focus {
+    outline: 1px solid #fff;
+    outline-offset: -4px;
+}
+
+input[type="submit"]:active {
+    transform: scale(0.99);
+}
