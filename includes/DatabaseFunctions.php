@@ -27,11 +27,7 @@ function deleteById($pdo, $table, $key, $value){
 	mylog("in deleteById");
 	mylog("table: ${table} id: ${value}");
 }
-function deleteOrderedFlowers($pdo, $orderID) {
-	$sql = 'DELETE FROM `ordflowers` WHERE `orderid` = :orderID';
-	$parameters = [':orderID' => $orderID];
-	$result = query($pdo, $sql, $parameters);
-}
+
 function orderById($pdo, $oid) {
 
 	$sql =	'SELECT 	of.orderid, of.qty, 
@@ -250,7 +246,7 @@ function updateOrder($pdo, $oid, $ptype, $amount, $flowers) {
 								 ':oid' => $oid ];
 	query($pdo, $sql, $parameters);							 
 
-	deleteOrderedFlowers($pdo, $oid);
+	deleteById($pdo, 'ordflowers', 'orderid', $oid);
 
 	foreach ($flowers as $key => $value) {
 		if ($value['qty'] > 0) {
