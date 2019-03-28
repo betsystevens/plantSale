@@ -11,9 +11,10 @@ function findById($pdo, $table, $primaryKey, $value) {
 							. $primaryKey . '` = :value';
 	$parameters = [ ':value' => $value ];
 
-	$query = query($pdo, $sql, $parameters);
-
-	return $query->fetch(); 
+	$result = query($pdo, $sql, $parameters);
+	mylog("in findById");
+	mylog("table: ${table} id: ${value}");
+	return $result->fetch(); 
 }
 
 function deleteById($pdo, $table, $key, $value){
@@ -21,16 +22,10 @@ function deleteById($pdo, $table, $key, $value){
 					 . $table . '` WHERE `' 
 					 . $key . '` = :value';
 	$parameters = [ ':value' => $value];
-	$query = query($pdo, $sql, $parameters);
+	$result = query($pdo, $sql, $parameters);
 
 	mylog("in deleteById");
 	mylog("table: ${table} id: ${value}");
-}
-// replace with deleteById
-function deleteOrder($pdo, $orderID) {
-	$sql = 'DELETE FROM `orders` WHERE `oid` = :orderID';
-	$parameters = [':orderID' => $orderID];
-	$result = query($pdo, $sql, $parameters);
 }
 function deleteOrderedFlowers($pdo, $orderID) {
 	$sql = 'DELETE FROM `ordflowers` WHERE `orderid` = :orderID';
@@ -239,7 +234,7 @@ function insertOrder($pdo, $cid, $sid, $paytype, $amount, $flowers) {
 	$orderId = $oid[0];
 	if (anyFlowerOrdered($pdo, $oid[0]) == 0) {
 		// no flowers were ordered, all zero quantity
-		deleteOrder($pdo, $oid[0]);
+		deleteById($pdo, 'orders', 'oid', $oid[0]);
 		$orderId = 0;
 	}
 	return $orderId;
@@ -278,7 +273,7 @@ function updateOrder($pdo, $oid, $ptype, $amount, $flowers) {
 	$orderId = $oid;
 	if (anyFlowerOrdered($pdo, $oid) == 0) {
 		// no flowers were ordered, all zero quantity
-		deleteOrder($pdo, $oid);
+		deleteById($pdo, 'orders', 'oid', $oid);
 		$orderId = 0;
 	}
 	return $orderId;

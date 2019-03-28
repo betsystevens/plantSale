@@ -20,7 +20,6 @@ try {
 	else {
 		$output = '';
 		$title = '';
-		// deleteScout($pdo, $_POST['id']);
 		deleteById($pdo, 'scout', 'scoutid', $_POST['id']);
 		header('location: scouts.php');
 	}

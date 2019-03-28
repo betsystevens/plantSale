@@ -4,7 +4,7 @@ try {
 	include __DIR__ . '/../includes/DatabaseFunctions.php';
 	deleteOrderedFlowers($pdo, $_POST['oid']);
 
-	deleteOrder($pdo, $_POST['oid']);
+	deleteById($pdo, 'orders', 'oid', $_POST['oid']);
 
 	$title = '';
 	$output = '';
