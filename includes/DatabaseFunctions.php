@@ -14,30 +14,31 @@ function findById($pdo, $table, $primaryKey, $value) {
 	$query = query($pdo, $sql, $parameters);
 
 	mylog("in findById");
+	mylog("table: ${table} id: ${value}");
 
 	return $query->fetch(); 
 }
+function orderById($pdo, $oid) {
 
-
-// replace with class::findAll($orderBy)
-function allScouts($pdo) {
-	$sql = 'SELECT * FROM `scout` ORDER BY `lastname`';
-	$result = query($pdo, $sql);
+	$sql =	'SELECT 	of.orderid, of.qty, 
+										f.fname, f.fvariety, f.fcontainer
+					FROM ordflowers of
+					INNER JOIN 	flower f 
+							ON	of.flowerid = f.flowerid
+					WHERE 	of.orderid = :oid
+					ORDER BY fcontainer, fname, fvariety';
+	$parameters = [ ':oid' => $oid ];				
+	$result = query($pdo, $sql, $parameters);
 	// fetchAll() returns an array of all records retrieved
-	return $result->fetchAll();
+	return $result->fetchAll();				
 }
+
 // replace with class::total
 function totalScouts($pdo) {
 	$sql = 'SELECT COUNT(*) FROM `scout`';
 	$result = query($pdo, $sql);
 	$row = $result->fetch();
 	return $row[0];
-}
-// replace with class::findAll(orderBy)
-function allCustomers($pdo) {
-	$sql = 'SELECT * FROM `customer` ORDER BY `lastname`';
-	$result = query($pdo, $sql);
-	return $result->fetchAll();
 }
 // replace with class::total
 function totalCustomers($pdo) {
@@ -46,6 +47,28 @@ function totalCustomers($pdo) {
 	$row = $result->fetch();
 	return $row[0];
 }
+// replace with class::total
+function totalOrders($pdo){
+	$sql = 'SELECT COUNT(*) FROM `orders`';
+	$result = query($pdo, $sql);
+	$row = $result->fetch();
+	return $row[0];
+}
+
+// replace with class::findAll($pdo, $table, $orderBy)
+function allScouts($pdo) {
+	$sql = 'SELECT * FROM `scout` ORDER BY `lastname`';
+	$result = query($pdo, $sql);
+	// fetchAll() returns an array of all records retrieved
+	return $result->fetchAll();
+}
+// replace with class::findAll($pdo, $table, orderBy)
+function allCustomers($pdo) {
+	$sql = 'SELECT * FROM `customer` ORDER BY `lastname`';
+	$result = query($pdo, $sql);
+	return $result->fetchAll();
+}
+
 function flowerNames($pdo) {
 	$sql = 'SELECT DISTINCT `fname` FROM `flower` ORDER BY `fname`';
 	$result = query($pdo, $sql);
@@ -68,14 +91,6 @@ function fContainers($pdo, $fname, $variety) {
 	$result = query($pdo, $sql, $parameters);
 	return $result->fetchAll();		
 }
-// replace with class::findById
-function getOneScout($pdo, $scoutid) {
-	$sql = 'SELECT * FROM `scout` WHERE `scoutid` = :scoutid';
-	$parameters = [':scoutid' => $scoutid];
-	$result = query($pdo, $sql, $parameters);
-	$row = $result->fetch();
-	return $row;
-}
 
 function scoutsOrderCount($pdo, $scoutid) {
 	$sql = 'SELECT 1 FROM `orders` 
@@ -91,14 +106,6 @@ function deleteScout($pdo, $scoutid) {
 	$result = query($pdo, $sql, $parameters);
 }
 
-//replace with findById
-function getOneCustomer($pdo, $custID) {
-	$sql = 'SELECT * FROM `customer` WHERE `custID` = :custID';
-	$parameters = [':custID' => $custID];
-	$result = query($pdo, $sql, $parameters);
-	$row = $result->fetch();
-	return $row;
-}
 function customersOrderCount($pdo, $custid) {
 	$sql = 'SELECT 1 FROM `orders`
 			WHERE `cid` = :custID';
@@ -160,13 +167,7 @@ function updateScout($pdo, $id, $lname, $fname) {
 					':firstname' => $fname ];
 	$result = query($pdo, $sql, $parameters);						
 }
-// replace with class::total
-function totalOrders($pdo){
-	$sql = 'SELECT COUNT(*) FROM `orders`';
-	$result = query($pdo, $sql);
-	$row = $result->fetch();
-	return $row[0];
-}
+
 function deleteOrderedFlowers($pdo, $orderID) {
 	$sql = 'DELETE FROM `ordflowers` WHERE `orderid` = :orderID';
 	$parameters = [':orderID' => $orderID];
@@ -248,7 +249,6 @@ function insertOrder($pdo, $cid, $sid, $paytype, $amount, $flowers) {
 	}
 	return $orderId;
 }
-
 function updateOrder($pdo, $oid, $ptype, $amount, $flowers) {
 
 	$sql = 'UPDATE `orders`
@@ -288,7 +288,6 @@ function updateOrder($pdo, $oid, $ptype, $amount, $flowers) {
 	}
 	return $orderId;
 }
-
 function saveEditOrder($pdo, $oid, $flowers) {
 	// for testing purposes right now
 	mylog("In save Order");
@@ -354,20 +353,7 @@ function orderPrice($pdo, $oid) {
 	$result = query($pdo, $sql, $parameters);
 	return $result->fetchAll();
 }
-function orderById($pdo, $oid) {
 
-	$sql =	'SELECT 	of.orderid, of.qty, 
-										f.fname, f.fvariety, f.fcontainer
-					FROM ordflowers of
-					INNER JOIN 	flower f 
-							ON	of.flowerid = f.flowerid
-					WHERE 	of.orderid = :oid
-					ORDER BY fcontainer, fname, fvariety';
-	$parameters = [ ':oid' => $oid ];				
-	$result = query($pdo, $sql, $parameters);
-	// fetchAll() returns an array of all records retrieved
-	return $result->fetchAll();				
-}
 function mylog($message)
 	{
 		ob_start();

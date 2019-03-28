@@ -15,7 +15,7 @@ try {
 		header('location: customers.php');
 	}
 	else {
-		$customer = getOneCustomer($pdo, $_GET['id']);
+		$customer = findById($pdo, 'customer', 'custID', $_GET['id']);
 
 		$title = 'Edit Customer';
 

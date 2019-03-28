@@ -17,7 +17,7 @@ try {
 		header('location: scouts.php');
 	}
 	else {
-		$scout = getOneScout($pdo, $_GET['id']);
+		$scout = findById($pdo, 'scout', 'scoutid', $_GET['id']);
 
 		$title = 'Edit Scout';
 
