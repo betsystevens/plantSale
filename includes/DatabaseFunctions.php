@@ -13,10 +13,29 @@ function findById($pdo, $table, $primaryKey, $value) {
 
 	$query = query($pdo, $sql, $parameters);
 
-	mylog("in findById");
-	mylog("table: ${table} id: ${value}");
-
 	return $query->fetch(); 
+}
+
+function deleteById($pdo, $table, $key, $value){
+	$sql = 'DELETE FROM `'
+					 . $table . '` WHERE `' 
+					 . $key . '` = :value';
+	$parameters = [ ':value' => $value];
+	$query = query($pdo, $sql, $parameters);
+
+	mylog("in deleteById");
+	mylog("table: ${table} id: ${value}");
+}
+// replace with deleteById
+function deleteOrder($pdo, $orderID) {
+	$sql = 'DELETE FROM `orders` WHERE `oid` = :orderID';
+	$parameters = [':orderID' => $orderID];
+	$result = query($pdo, $sql, $parameters);
+}
+function deleteOrderedFlowers($pdo, $orderID) {
+	$sql = 'DELETE FROM `ordflowers` WHERE `orderid` = :orderID';
+	$parameters = [':orderID' => $orderID];
+	$result = query($pdo, $sql, $parameters);
 }
 function orderById($pdo, $oid) {
 
@@ -99,12 +118,6 @@ function scoutsOrderCount($pdo, $scoutid) {
 	$result = query($pdo, $sql, $parameters);
 	return $result->rowCount();		
 }
-// replace with class::deleteById
-function deleteScout($pdo, $scoutid) {
-	$sql = 'DELETE FROM `scout` WHERE `scoutid` = :scoutid';
-	$parameters = [':scoutid' => $scoutid];
-	$result = query($pdo, $sql, $parameters);
-}
 
 function customersOrderCount($pdo, $custid) {
 	$sql = 'SELECT 1 FROM `orders`
@@ -113,12 +126,7 @@ function customersOrderCount($pdo, $custid) {
 	$result = query($pdo, $sql, $parameters);
 	return $result->rowCount();		
 }
-// replace with class::deleteById
-function deleteCustomer($pdo, $custID) {
-	$sql = 'DELETE FROM `customer` WHERE `custID` = :custID';
-	$parameters = [':custID' => $custID];
-	$result = query($pdo, $sql, $parameters);
-}
+
 function insertCustomer($pdo, $lname, $fname, $email, $telno, $addr) {
 	$sql = 'INSERT INTO `customer` 
 			(`lastname`,`firstname`,`email`,`telno`,`address`)
@@ -167,18 +175,6 @@ function updateScout($pdo, $id, $lname, $fname) {
 					':firstname' => $fname ];
 	$result = query($pdo, $sql, $parameters);						
 }
-
-function deleteOrderedFlowers($pdo, $orderID) {
-	$sql = 'DELETE FROM `ordflowers` WHERE `orderid` = :orderID';
-	$parameters = [':orderID' => $orderID];
-	$result = query($pdo, $sql, $parameters);
-}
-// replace with deleteById
-function deleteOrder($pdo, $orderID) {
-	$sql = 'DELETE FROM `orders` WHERE `oid` = :orderID';
-	$parameters = [':orderID' => $orderID];
-	$result = query($pdo, $sql, $parameters);
-}
 function anyFlowerOrdered($pdo, $oid) {
 	$sql = 'SELECT 1 FROM `ordflowers`
 			WHERE  `orderid` = :orderid';
@@ -186,7 +182,6 @@ function anyFlowerOrdered($pdo, $oid) {
 	$result = query($pdo, $sql, $parameters);
 	return $result->rowCount();		
 }
-
 function getScoutForOrder($pdo, $oid) {
 	$sql = 'SELECT `scoutid`, `lastname` , `firstname` 
     			FROM `scout`, `orders`

@@ -20,8 +20,7 @@ try {
 	else {
 		$title = '';
 		$output = '';
-		// echo "Will delete customer: " . $_POST['id'];
-		deleteCustomer($pdo, $_POST['id']);
+		deleteById($pdo, 'customer', 'custID', $_POST['id']);
 		header('location: customers.php');
 	}
 }

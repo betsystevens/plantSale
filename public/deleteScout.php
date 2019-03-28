@@ -20,8 +20,8 @@ try {
 	else {
 		$output = '';
 		$title = '';
-		// echo "will delete scout: " . $_POST['id'];
-		deleteScout($pdo, $_POST['id']);
+		// deleteScout($pdo, $_POST['id']);
+		deleteById($pdo, 'scout', 'scoutid', $_POST['id']);
 		header('location: scouts.php');
 	}
 }
