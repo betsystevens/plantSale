@@ -12,7 +12,7 @@ try{
 
 	$scouts = allScouts($pdo);
 
-	$total = totalScouts($pdo);
+	$total = countRecords($pdo, 'scout');
 
 	$title = 'All Scouts';
 

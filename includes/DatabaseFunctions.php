@@ -27,7 +27,13 @@ function deleteById($pdo, $table, $key, $value){
 	mylog("in deleteById");
 	mylog("table: ${table} id: ${value}");
 }
-
+function countRecords($pdo, $table){
+	mylog("in countRecords");
+	$sql = 'SELECT COUNT(*) FROM `'	. $table . '`';
+	$result = query($pdo, $sql);
+	$row = $result->fetch();
+	return $row[0];
+}
 function orderById($pdo, $oid) {
 
 	$sql =	'SELECT 	of.orderid, of.qty, 
@@ -41,28 +47,6 @@ function orderById($pdo, $oid) {
 	$result = query($pdo, $sql, $parameters);
 	// fetchAll() returns an array of all records retrieved
 	return $result->fetchAll();				
-}
-
-// replace with class::total
-function totalScouts($pdo) {
-	$sql = 'SELECT COUNT(*) FROM `scout`';
-	$result = query($pdo, $sql);
-	$row = $result->fetch();
-	return $row[0];
-}
-// replace with class::total
-function totalCustomers($pdo) {
-	$sql = 'SELECT COUNT(*) FROM `customer`';
-	$result = query($pdo, $sql);
-	$row = $result->fetch();
-	return $row[0];
-}
-// replace with class::total
-function totalOrders($pdo){
-	$sql = 'SELECT COUNT(*) FROM `orders`';
-	$result = query($pdo, $sql);
-	$row = $result->fetch();
-	return $row[0];
 }
 
 // replace with class::findAll($pdo, $table, $orderBy)

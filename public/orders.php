@@ -13,7 +13,7 @@ try {
 	$title = 'All Orders';
 	$orders = allOrders($pdo);
 	ksort($orders);
-	$total = totalOrders($pdo);
+	$total = countRecords($pdo, 'orders');
 	
 	// added 3/14
 	foreach ($orders as $orderId => $order) {

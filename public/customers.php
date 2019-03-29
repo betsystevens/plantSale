@@ -12,7 +12,7 @@ try {
 
 	$customers = allCustomers($pdo);
 
-	$total = totalCustomers($pdo);
+	$total = countRecords($pdo, 'customer');
 
 	$title = 'All Customers';
 
