@@ -5,7 +5,7 @@ try {
 	include __DIR__ . '/../includes/DatabaseConnection.php';
 	include __DIR__ . '/../includes/DatabaseFunctions.php';
 
-	if (customersOrderCount($pdo, $_POST['id']) > 0) {
+	if (recordCount($pdo, 'orders', 'cid', $_POST['id']) > 0) {
 		$title = 'Alert';
 
 		$message = 'There is an order for this customer' . '<br>' . '<br>';
