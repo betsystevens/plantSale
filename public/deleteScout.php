@@ -3,7 +3,7 @@ try {
 	include __DIR__ . '/../includes/DatabaseConnection.php';
 	include __DIR__ . '/../includes/DatabaseFunctions.php';
 
-	if (recordCount($pdo, 'orders', 'sid', $_POST['id']) > 0 ){
+	if (recordFound($pdo, 'orders', 'sid', $_POST['id'])) {	
 		$message = 'There is an order for this scout' . '<br>' . '<br>';
 		$message .= "Order(s) must be deleted before scout can be deleted";
 		$message .= "<br>";

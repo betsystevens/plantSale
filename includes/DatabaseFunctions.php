@@ -12,8 +12,7 @@ function findById($pdo, $table, $primaryKey, $value) {
 	$parameters = [ ':value' => $value ];
 
 	$result = query($pdo, $sql, $parameters);
-	mylog("in findById");
-	mylog("table: ${table} id: ${value}");
+	mylog("findById: table: ${table} id: ${value}");
 	return $result->fetch(); 
 }
 function deleteById($pdo, $table, $key, $value){
@@ -22,23 +21,23 @@ function deleteById($pdo, $table, $key, $value){
 					 . $key . '` = :value';
 	$parameters = [ ':value' => $value];
 	$result = query($pdo, $sql, $parameters);
-
-	mylog("in deleteById");
-	mylog("table: ${table} id: ${value}");
+	mylog("deleteById: table: ${table} id: ${value}");
 }
 function countRecords($pdo, $table){
-	mylog("in countRecords");
 	$sql = 'SELECT COUNT(*) FROM `'	. $table . '`';
 	$result = query($pdo, $sql);
 	$row = $result->fetch();
 	return $row[0];
 }
-function recordCount($pdo, $table, $key, $value) {
+function recordFound($pdo, $table, $key, $value) {
 	$sql = 'SELECT 1 FROM `' . $table .
 					'` WHERE `' . $key . '` = :value';
 	$parameters = [':value' => $value];
 	$result = query($pdo, $sql, $parameters);
-	return $result->rowCount();
+	$count = $result->rowCount();
+
+	$found = ($count == 0) ? false : true;
+	return $found;
 }
 
 function orderById($pdo, $oid) {
@@ -92,7 +91,6 @@ function fContainers($pdo, $fname, $variety) {
 	$result = query($pdo, $sql, $parameters);
 	return $result->fetchAll();		
 }
-
 
 function insertCustomer($pdo, $lname, $fname, $email, $telno, $addr) {
 	$sql = 'INSERT INTO `customer` 
@@ -198,8 +196,8 @@ function insertOrder($pdo, $cid, $sid, $paytype, $amount, $flowers) {
 	}
 
 	$orderId = $oid[0];
-	if (recordCount($pdo, 'ordflowers', 'orderid', $oid[0]) == 0) {
-		// no flowers were ordered, all zero quantity
+	if (!recordFound($pdo, 'ordflowers', 'orderid', $oid[0])) {
+		// all quantities were 0, no flowers were ordered, delete order
 		deleteById($pdo, 'orders', 'oid', $oid[0]);
 		$orderId = 0;
 	}
@@ -238,9 +236,9 @@ function updateOrder($pdo, $oid, $ptype, $amount, $flowers) {
 
 	$orderId = $oid;
 
-	// if (anyFlowerOrdered($pdo, $oid) == 0) {
-		// no flowers were ordered, all zero quantity
-	if (recordCount($pdo, 'ordflowers', 'orderid', $oid) == 0) {
+	// all qty's were 0, no flowers were ordered
+	// delete order
+	if (!recordFound($pdo, 'ordflowers', 'orderid', $oid)) {
 		deleteById($pdo, 'orders', 'oid', $oid);
 		$orderId = 0;
 	}
