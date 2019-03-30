@@ -60,13 +60,6 @@ function getAllOrderBy($pdo, $table, $orderBy){
 	// fetchAll() returns an array of all records retrieved
 	return $result->fetchAll();	
 }
-// replace with class::findAll($pdo, $table, orderBy)
-function xallCustomers($pdo) {
-	$sql = 'SELECT * FROM `customer` ORDER BY `lastname`';
-	$result = query($pdo, $sql);
-	return $result->fetchAll();
-}
-
 function flowerNames($pdo) {
 	$sql = 'SELECT DISTINCT `fname` FROM `flower` ORDER BY `fname`';
 	$result = query($pdo, $sql);
