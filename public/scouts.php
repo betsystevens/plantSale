@@ -10,7 +10,7 @@ try{
 	include __DIR__ . '/../includes/DatabaseConnection.php';
 	include __DIR__ . '/../includes/DatabaseFunctions.php';
 
-	$scouts = allScouts($pdo);
+	$scouts = getAllOrderBy($pdo, 'scout', 'lastname');
 
 	$total = countRecords($pdo, 'scout');
 

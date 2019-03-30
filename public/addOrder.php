@@ -25,8 +25,8 @@ try {
 	}
 	
 	// get data for add order form
-	$scouts = allScouts($pdo);
-	$customers = allCustomers($pdo);
+	$scouts = getAllOrderBy($pdo, 'scout', 'lastname');
+	$customers = getAllOrderBy($pdo, 'customer', 'lastname');
 	$flowerNames = flowerNames($pdo);
 	// get the first flower's variety & container
 	$varieties = fVarieties($pdo, $flowerNames[0][0]);

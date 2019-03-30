@@ -7,8 +7,8 @@ function query($pdo, $sql, $parameters = []) {
 }
 function findById($pdo, $table, $primaryKey, $value) {
 	$sql = 'SELECT * FROM `'
-							. $table . '` WHERE `'
-							. $primaryKey . '` = :value';
+						. $table . '` WHERE `'
+						. $primaryKey . '` = :value';
 	$parameters = [ ':value' => $value ];
 
 	$result = query($pdo, $sql, $parameters);
@@ -39,7 +39,6 @@ function recordFound($pdo, $table, $key, $value) {
 	$found = ($count == 0) ? false : true;
 	return $found;
 }
-
 function orderById($pdo, $oid) {
 
 	$sql =	'SELECT 	of.orderid, of.qty, 
@@ -54,16 +53,15 @@ function orderById($pdo, $oid) {
 	// fetchAll() returns an array of all records retrieved
 	return $result->fetchAll();				
 }
-
-// replace with class::findAll($pdo, $table, $orderBy)
-function allScouts($pdo) {
-	$sql = 'SELECT * FROM `scout` ORDER BY `lastname`';
+function getAllOrderBy($pdo, $table, $orderBy){
+	$sql = 'SELECT * FROM `' .$table.
+						'` ORDER BY `' .$orderBy. '`';
 	$result = query($pdo, $sql);
 	// fetchAll() returns an array of all records retrieved
-	return $result->fetchAll();
+	return $result->fetchAll();	
 }
 // replace with class::findAll($pdo, $table, orderBy)
-function allCustomers($pdo) {
+function xallCustomers($pdo) {
 	$sql = 'SELECT * FROM `customer` ORDER BY `lastname`';
 	$result = query($pdo, $sql);
 	return $result->fetchAll();

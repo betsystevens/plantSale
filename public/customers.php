@@ -10,7 +10,7 @@ try {
 	include __DIR__ . '/../includes/DatabaseFunctions.php';
 	include __DIR__ . '/../includes/helperFunctions.php';
 
-	$customers = allCustomers($pdo);
+	$customers = getAllOrderBy($pdo, 'customer', 'lastname');
 
 	$total = countRecords($pdo, 'customer');
 
