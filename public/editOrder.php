@@ -19,8 +19,6 @@ try {
 
 		$id = $_POST['oid'];
 
-		// print_r($_POST['paytype']);
-		// print_r($_POST['amount']);
 		$oid = updateOrder($pdo,$_POST['oid'],$_POST['paytype'],
 						 $_POST['amount'],$_POST['flower']);
 

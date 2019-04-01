@@ -53,7 +53,7 @@ function flowerNames($pdo) {
 	return $result->fetchAll();
 }
 
-function getColumnsWhere($pdo, $columns, $tables, $where){
+function getColumnsWhere($pdo, $columns, $table, $where){
 
 $sql = 'SELECT `'; 
 	foreach ($columns as $key => $value) {
@@ -63,7 +63,7 @@ $sql = 'SELECT `';
 	$sql = rtrim($sql, ",");
 
 	$sql .= ' FROM `';
-	foreach($tables as $key => $value) {
+	foreach($table as $key => $value) {
 		$sql .= $value . '`, `';
 	}
 	$sql = rtrim($sql, " `");
@@ -82,20 +82,28 @@ $sql = 'SELECT `';
 }
 
 function getScoutForOrder($pdo, $oid) {
-	$sql = 'SELECT `scoutid`, `lastname` , `firstname` 
-    			FROM `scout`, `orders`
-    			WHERE `oid` = :orderid AND
-    			`scoutid` = `sid`';
+	$sql = 'SELECT 	`scoutid`,
+									`lastname`,
+									`firstname` 
+					FROM 		`scout`
+					INNER JOIN 	`orders`
+								ON		`scoutid` = `sid`
+								AND		`oid` = :orderid';
+
   $parameters = [':orderid' => $oid];
   $result = query($pdo, $sql, $parameters);
   $row = $result->fetchAll();
 	return $row;			
 }
 function getCustForOrder($pdo, $oid) {
-	$sql = 'SELECT `custid`, `lastname` , `firstname` 
-    			FROM `customer`, `orders`
-    			WHERE `oid` = :orderid AND
-    			`custid` = `cid`';
+	$sql = 'SELECT 	`custid`,
+									`lastname`,
+									`firstname`
+    			FROM 		`customer`
+  	  		INNER JOIN	`orders`
+  	  					ON		`custid` = `cid`	
+    						AND 	`oid` = :orderid'; 
+
   $parameters = [':orderid' => $oid];
   $result = query($pdo, $sql, $parameters);
   $row = $result->fetchAll();
@@ -104,26 +112,42 @@ function getCustForOrder($pdo, $oid) {
 
 function orderById($pdo, $oid) {
 
-	$sql =	'SELECT 	of.orderid, of.qty, 
-										f.fname, f.fvariety, f.fcontainer
-					FROM ordflowers of
+	$sql =	'SELECT of.orderid,
+									of.qty, 
+									f.fname, 
+									f.fvariety,
+									f.fcontainer
+					FROM 		ordflowers of
 					INNER JOIN 	flower f 
-							ON	of.flowerid = f.flowerid
-					WHERE 	of.orderid = :oid
-					ORDER BY fcontainer, fname, fvariety';
+								ON		of.flowerid = f.flowerid
+								AND 	of.orderid = :oid
+					ORDER BY 		fcontainer,
+											fname,
+											fvariety';
+
 	$parameters = [ ':oid' => $oid ];				
 	$result = query($pdo, $sql, $parameters);
 	// fetchAll() returns an array of all records retrieved
 	return $result->fetchAll();				
 }
 function insertCustomer($pdo, $lname, $fname, $email, $telno, $addr) {
-	$sql = 'INSERT INTO `customer` 
-			(`lastname`,`firstname`,`email`,`telno`,`address`)
-			VALUES (:lastname, :firstname,
-					:email, :telno, :address)';
-	$parameters = [':lastname' => $lname, ':firstname' => $fname,
-					':email' => $email, ':telno' => $telno, 
-					':address' => $addr];
+	$sql = 'INSERT INTO	`customer` 
+										(	`lastname`,
+											`firstname`,
+											`email`,
+											`telno`,
+											`address`)
+					VALUES 		(	:lastname, 
+											:firstname,
+											:email,
+											:telno,
+											:address)';
+			
+	$parameters = [	':lastname' => $lname, 
+									':firstname' => $fname,
+									':email' => $email,
+									':telno' => $telno, 
+									':address' => $addr];
 	$result = query($pdo, $sql, $parameters);
 
 	$sql = 'SELECT LAST_INSERT_ID() FROM `customer`';
@@ -150,27 +174,41 @@ function updateCustomer ($pdo, $id, $lname, $fname, $email, $addr, $telno) {
 	$result = query($pdo, $sql, $parameters);						
 }
 function insertScout($pdo, $lname, $fname) {
-	$sql = 'INSERT INTO `scout` (`lastname`,`firstname`)
-			VALUES (:lastname, :firstname)';
-	$parameters = [':lastname' => $lname, ':firstname' => $fname];
+	$sql = 'INSERT INTO	`scout` 
+										(	`lastname`,
+											`firstname`)
+					VALUES 		(	:lastname, 
+											:firstname)';
+	$parameters = 
+				[	':lastname' => $lname,
+					':firstname' => $fname];
 	$result = query($pdo, $sql, $parameters);		
 }
 function updateScout($pdo, $id, $lname, $fname) {
-	$sql = 'UPDATE `scout`
-			SET `lastname` = :lastname,
-				`firstname` = :firstname
-			WHERE `scoutid` = :scoutid';
-	$parameters = [	':scoutid' => $id,
+	$sql = 'UPDATE	`scout`
+					SET 		`lastname` = :lastname,
+									`firstname` = :firstname
+					WHERE 	`scoutid` = :scoutid';
+	$parameters = 
+				[	':scoutid' => $id,
 					':lastname' => $lname,
 					':firstname' => $fname ];
 	$result = query($pdo, $sql, $parameters);						
 }
 
 function insertOrder($pdo, $cid, $sid, $paytype, $amount, $flowers) {
-	$sql = 'INSERT INTO `orders` 
-				(`cid`,`sid`,`paytype`,`amount`,`year`)
-			VALUES 
-				(:cid,:sid,:paytype,:amount,:year)';
+	$sql = 	'INSERT INTO	`orders` 
+											(	`cid`,
+												`sid`,
+												`paytype`,
+												`amount`,
+												`year`)
+					VALUES 
+											(	:cid,
+												:sid,
+												:paytype,
+												:amount,
+												:year)';
 
 	$parameters = [	':cid' => $cid, 
 					':sid' => $sid, 
@@ -192,10 +230,15 @@ function insertOrder($pdo, $cid, $sid, $paytype, $amount, $flowers) {
 						  $value['variety'],
 						  $value['container'] );
 
-			$sql = 'INSERT INTO `ordflowers` (orderid, flowerid, qty)
-					VALUES (LAST_INSERT_ID(), :flowerid, :qty)';
+			$sql = 'INSERT INTO	`ordflowers` 
+												(	`orderid`,
+													`flowerid`,
+													`qty`	)
+							VALUES 		(	LAST_INSERT_ID(),
+													:flowerid,
+													:qty	)';
 			$parameters = [	':flowerid' => $flowerID, 
-							':qty' => $value['qty']];
+											':qty' => $value['qty']	];
 			$result = query($pdo, $sql, $parameters);
 		}
 	}
@@ -210,13 +253,13 @@ function insertOrder($pdo, $cid, $sid, $paytype, $amount, $flowers) {
 }
 function updateOrder($pdo, $oid, $ptype, $amount, $flowers) {
 
-	$sql = 'UPDATE `orders`
-					SET `paytype` = :paytype,
-							`amount` = :amount
-					WHERE `oid` = :oid';
-	$parameters = [':paytype' => $ptype,
-								 ':amount' => $amount,
-								 ':oid' => $oid ];
+	$sql = 'UPDATE 	`orders`
+					SET 		`paytype` = :paytype,
+									`amount` = :amount
+					WHERE 	`oid` = :oid';
+	$parameters = [	':paytype' => $ptype,
+								 	':amount' => $amount,
+								 	':oid' => $oid ];
 	query($pdo, $sql, $parameters);							 
 
 	deleteById($pdo, 'ordflowers', 'orderid', $oid);
@@ -230,11 +273,16 @@ function updateOrder($pdo, $oid, $ptype, $amount, $flowers) {
 						  $value['variety'],
 						  $value['container'] );
 
-			$sql = 'INSERT INTO `ordflowers` (orderid, flowerid, qty)
-					VALUES (:oid, :flowerid, :qty)';
+			$sql = 'INSERT INTO `ordflowers` 
+												(	`orderid`, 
+													`flowerid`,
+													`qty`	)
+							VALUES (		:oid, 
+													:flowerid,
+													:qty	)';
 			$parameters = [	':oid' => $oid,
-							':flowerid' => $flowerID, 
-							':qty' => $value['qty']];
+											':flowerid' => $flowerID, 
+											':qty' => $value['qty']];
 			$result = query($pdo, $sql, $parameters);
 		}
 	}
@@ -261,14 +309,14 @@ function saveEditOrder($pdo, $oid, $flowers) {
 }
 function flowerID($pdo, $fname, $variety, $container) {
 	$sql = 'SELECT 	`flowerid` 
-			FROM 	`flower`
-			WHERE 	`fname` = :fname AND
-					`fvariety` = :fvariety AND
-					`fcontainer` = :fcontainer';
+					FROM 		`flower`
+					WHERE 	`fname` = :fname
+					AND			`fvariety` = :fvariety
+					AND			`fcontainer` = :fcontainer';
 
 	$parameters = [	':fname' => $fname,
-					':fvariety' => $variety,
-					':fcontainer' => $container ];
+									':fvariety' => $variety,
+									':fcontainer' => $container ];
 	$result = query($pdo, $sql, $parameters);
 	$row = $result->fetch();
 	return $row[0];
@@ -293,13 +341,14 @@ function allOrders($pdo) {
 	return $result->fetchAll(PDO::FETCH_GROUP|PDO::FETCH_ASSOC);		
 }
 function orderPrice($pdo, $oid) {
-	$sql =	'SELECT 	of.orderid, sum(of.qty * p.retail) as total
-					FROM	ordflowers of 
+	$sql =	'SELECT 	of.orderid,
+										sum(of.qty * p.retail) as total
+					FROM			ordflowers of 
 					INNER JOIN flower f 
-							ON	of.flowerid = f.flowerid
-					INNER JOIN price p 
-							ON 	f.fcontainer = p.container
-					WHERE of.orderid = :oid'; 
+								ON	of.flowerid = f.flowerid
+								INNER JOIN price p 
+											ON 	f.fcontainer = p.container
+											AND of.orderid = :oid'; 
 	$parameters = [ ':oid' => $oid ];				
 	$result = query($pdo, $sql, $parameters);
 	return $result->fetchAll();
