@@ -39,6 +39,69 @@ function recordFound($pdo, $table, $key, $value) {
 	$found = ($count == 0) ? false : true;
 	return $found;
 }
+
+function getAllOrderBy($pdo, $table, $orderBy){
+	$sql = 'SELECT * FROM `' .$table.
+						'` ORDER BY `' .$orderBy. '`';
+	$result = query($pdo, $sql);
+	// fetchAll() returns an array of all records retrieved
+	return $result->fetchAll();	
+}
+function flowerNames($pdo) {
+	$sql = 'SELECT DISTINCT `fname` FROM `flower` ORDER BY `fname`';
+	$result = query($pdo, $sql);
+	return $result->fetchAll();
+}
+
+function getColumnsWhere($pdo, $columns, $tables, $where){
+
+$sql = 'SELECT `'; 
+	foreach ($columns as $key => $value) {
+		$sql .= $value .'`, `';
+	}
+	$sql = rtrim($sql, " `");
+	$sql = rtrim($sql, ",");
+
+	$sql .= ' FROM `';
+	foreach($tables as $key => $value) {
+		$sql .= $value . '`, `';
+	}
+	$sql = rtrim($sql, " `");
+	$sql = rtrim($sql, ",");
+
+	$sql .= ' WHERE `';
+	foreach($where as $key => $value) {
+		$sql .= $key . '` = :' . $key . ' AND `';
+	}
+	$sql = rtrim($sql, " `");
+	$sql = rtrim($sql, "AND ");
+	$sql .= ';';
+	
+	$result = query($pdo, $sql, $where);
+	return $result->fetchAll();	
+}
+
+function getScoutForOrder($pdo, $oid) {
+	$sql = 'SELECT `scoutid`, `lastname` , `firstname` 
+    			FROM `scout`, `orders`
+    			WHERE `oid` = :orderid AND
+    			`scoutid` = `sid`';
+  $parameters = [':orderid' => $oid];
+  $result = query($pdo, $sql, $parameters);
+  $row = $result->fetchAll();
+	return $row;			
+}
+function getCustForOrder($pdo, $oid) {
+	$sql = 'SELECT `custid`, `lastname` , `firstname` 
+    			FROM `customer`, `orders`
+    			WHERE `oid` = :orderid AND
+    			`custid` = `cid`';
+  $parameters = [':orderid' => $oid];
+  $result = query($pdo, $sql, $parameters);
+  $row = $result->fetchAll();
+	return $row;			
+}
+
 function orderById($pdo, $oid) {
 
 	$sql =	'SELECT 	of.orderid, of.qty, 
@@ -53,36 +116,6 @@ function orderById($pdo, $oid) {
 	// fetchAll() returns an array of all records retrieved
 	return $result->fetchAll();				
 }
-function getAllOrderBy($pdo, $table, $orderBy){
-	$sql = 'SELECT * FROM `' .$table.
-						'` ORDER BY `' .$orderBy. '`';
-	$result = query($pdo, $sql);
-	// fetchAll() returns an array of all records retrieved
-	return $result->fetchAll();	
-}
-function flowerNames($pdo) {
-	$sql = 'SELECT DISTINCT `fname` FROM `flower` ORDER BY `fname`';
-	$result = query($pdo, $sql);
-	return $result->fetchAll();
-}
-// replace with class::findAllWhere
-function fVarieties($pdo, $fname) {
-	$sql = 'SELECT `fvariety` FROM `flower` 
-			WHERE `fname` = :fname';
-	$parameters = [':fname' => $fname];
-	$result = query($pdo, $sql, $parameters);
-	return $result->fetchAll();		
-}
-// replace with class::findAllWhere
-function fContainers($pdo, $fname, $variety) {
-	$sql = 'SELECT `fcontainer` FROM `flower`
-			WHERE `fname` = :fname 
-			AND `fvariety` = :fvariety';
-	$parameters = [':fname' => $fname, ':fvariety' => $variety];
-	$result = query($pdo, $sql, $parameters);
-	return $result->fetchAll();		
-}
-
 function insertCustomer($pdo, $lname, $fname, $email, $telno, $addr) {
 	$sql = 'INSERT INTO `customer` 
 			(`lastname`,`firstname`,`email`,`telno`,`address`)
@@ -101,13 +134,14 @@ function insertCustomer($pdo, $lname, $fname, $email, $telno, $addr) {
 }
 function updateCustomer ($pdo, $id, $lname, $fname, $email, $addr, $telno) {
 	$sql = 'UPDATE `customer` 
-			SET	`lastname` = :lastname,
-				`firstname` = :firstname,
-				`email` = :email,
-				`address` = :address,
-				`telno` = :telno
-			WHERE `custid` = :custid';
-	$parameters = [	':custid' => $id,
+					SET    `lastname` = :lastname, 
+					       `firstname` = :firstname, 
+					       `email` = :email, 
+					       `address` = :address, 
+					       `telno` = :telno 
+					WHERE  `custid` = :custid'; 
+	$parameters = 
+				[	':custid' => $id,
 					':lastname' => $lname,
 					':firstname' => $fname,
 					':email' => $email,
@@ -132,26 +166,6 @@ function updateScout($pdo, $id, $lname, $fname) {
 	$result = query($pdo, $sql, $parameters);						
 }
 
-function getScoutForOrder($pdo, $oid) {
-	$sql = 'SELECT `scoutid`, `lastname` , `firstname` 
-    			FROM `scout`, `orders`
-    			WHERE `oid` = :orderid AND
-    			`scoutid` = `sid`';
-  $parameters = [':orderid' => $oid];
-  $result = query($pdo, $sql, $parameters);
-  $row = $result->fetchAll();
-	return $row;			
-}
-function getCustForOrder($pdo, $oid) {
-	$sql = 'SELECT `custid`, `lastname` , `firstname` 
-    			FROM `customer`, `orders`
-    			WHERE `oid` = :orderid AND
-    			`custid` = `cid`';
-  $parameters = [':orderid' => $oid];
-  $result = query($pdo, $sql, $parameters);
-  $row = $result->fetchAll();
-	return $row;			
-}
 function insertOrder($pdo, $cid, $sid, $paytype, $amount, $flowers) {
 	$sql = 'INSERT INTO `orders` 
 				(`cid`,`sid`,`paytype`,`amount`,`year`)
@@ -227,8 +241,7 @@ function updateOrder($pdo, $oid, $ptype, $amount, $flowers) {
 
 	$orderId = $oid;
 
-	// all qty's were 0, no flowers were ordered
-	// delete order
+	// delete order if all quantity's were 0
 	if (!recordFound($pdo, 'ordflowers', 'orderid', $oid)) {
 		deleteById($pdo, 'orders', 'oid', $oid);
 		$orderId = 0;
@@ -267,24 +280,15 @@ function allOrders($pdo) {
 			s.lastname as scoutLast, s.firstname as scoutFirst,
 			paytype, amount,
 			qty, fname, fvariety, fcontainer
-			-- new line
-			-- sum(of.qty * p.retail) as total
 			FROM
 			customer c, scout s, 
 			orders, flower f, ordflowers of
-			-- new line
-			-- price p
 			WHERE
 			f.flowerid = of.flowerid AND
 			of.orderid = oid AND
 			c.custid = cid AND
 			s.scoutid = sid
-			-- new line
-			-- AND f.fcontainer = p.container
-
-			-- GROUP BY oid;
 			ORDER BY fcontainer, fname, fvariety';
-			
 	$result = query($pdo, $sql);
 	return $result->fetchAll(PDO::FETCH_GROUP|PDO::FETCH_ASSOC);		
 }

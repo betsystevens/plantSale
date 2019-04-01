@@ -3,7 +3,8 @@ try {
 	include __DIR__ . '/../includes/DatabaseConnection.php';
 	include __DIR__ . '/../includes/DatabaseFunctions.php';
 
-	$varieties = fVarieties($pdo, $_POST['fname']);
+	$where = ['fname' => $_POST['fname']];
+	$varieties = getColumnsWhere($pdo, ['fvariety'], ['flower'], $where);
 
 	echo json_encode($varieties);
 }

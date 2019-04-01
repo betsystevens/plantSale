@@ -29,8 +29,11 @@ try {
 	$customers = getAllOrderBy($pdo, 'customer', 'lastname');
 	$flowerNames = flowerNames($pdo);
 	// get the first flower's variety & container
-	$varieties = fVarieties($pdo, $flowerNames[0][0]);
-	$containers = fContainers($pdo, $flowerNames[0][0], $varieties[0][0]);
+	$where['fname'] = $flowerNames[0][0];
+	$varieties = getColumnsWhere($pdo, ['fvariety'], ['flower'], $where);
+	$where['fvariety'] = $varieties[0][0];
+
+	$containers = getColumnsWhere($pdo, ['fcontainer'], ['flower'], $where);
 
 	$title = 'Add Flower Order';
 

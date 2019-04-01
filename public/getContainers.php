@@ -3,7 +3,9 @@ try {
 	include __DIR__ . '/../includes/DatabaseConnection.php';
 	include __DIR__ . '/../includes/DatabaseFunctions.php';
 
-	$containers = fContainers($pdo, $_POST['fname'], $_POST['fvariety']);
+	$where['fname'] = $_POST['fname'];
+	$where['fvariety'] = $_POST['fvariety'];
+	$containers = getColumnsWhere($pdo, ['fcontainer'], ['flower'], $where);
 
 	echo json_encode($containers);
 }
@@ -13,4 +15,3 @@ catch (PDOException $e) {
 				$e->getFile() . ':' . $e->getLine();
 	include __DIR__ . '/../tempates/output.html.php';			
 }
-?>

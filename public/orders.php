@@ -15,17 +15,12 @@ try {
 	ksort($orders);
 	$total = countRecords($pdo, 'orders');
 	
-	// added 3/14
 	foreach ($orders as $orderId => $order) {
 		$orderTotal = orderPrice($pdo, $orderId);
 		foreach ($order as $key => $orderData) {
 			$orders[$orderId][$key]['total'] = $orderTotal[0]['total'];
 		}
 	}
-	// - 3/14
-
-
-	// display orders
 	ob_start();
 	include __DIR__ . '/../templates/orders.html.php';
 	$output = ob_get_clean();
