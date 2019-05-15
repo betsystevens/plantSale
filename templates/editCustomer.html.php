@@ -8,7 +8,7 @@
 	$telno = htmlspecialchars($customer['telno'], ENT_QUOTES, 'UTF-8');
 
 ?>	
-<form accept="" method="post">
+<form action="" ="" method="post">
 	<fieldset>
 		<legend>Edit Customer</legend>
 		<p>
