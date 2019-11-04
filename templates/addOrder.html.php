@@ -47,7 +47,7 @@
 					</td>
 				</tr>
 		</table>
-		<table class="order">
+		<table class="order flowers">
 			<tr>
 				<th>Quantity</th>
 				<th>Flower</th>
@@ -55,7 +55,7 @@
 				<th>Container</th>
 				<th></th>
 			</tr>
-			<tr>
+			<tr id="row_0">
 				<td>
 					<input id="qty_0" name="flower[0][qty]" pattern="[0-9]{1,2}"
 					title="Quantity must be less than 100" size="3" required>	
@@ -88,7 +88,7 @@
 					</select>
 				</td>
 				<td id="addSign">
-					<input id="addBtn" type="button" value="(+)">
+					<input id="addBtn_0" name="addBtn_0" type="button" value="(+)">
 				</td>
 			</tr>
 			<tr id="submitRow">

@@ -121,14 +121,16 @@ input[type="submit"] {
 	background-color: #f7f7f7;
 }
 
-input[id*="qty"], #addBtn { font-size: .9em; border-radius: 5px; }
+/* input[id*="qty"], #addBtn { font-size: .9em; border-radius: 5px; } */
+input[id*="qty"], input[id*="addBtn"] { font-size: .9em; border-radius: 5px; }
 
 input.payment { 
 	font-size: .9em; 
 	border-radius: 5px; 
 	min-width: 250px;
 }
-#addBtn { padding: 1px 7px 2px; }
+/* #addBtn { padding: 1px 7px 2px; } */
+input[id*="addBtn"] { padding: 1px 7px 2px; }
 
 /*a.btn:hover { background-color: rgba(0,0,0,.2); }*/
 .btn:hover { background-color: rgba(0,0,0,.3); }

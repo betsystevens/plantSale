@@ -47,7 +47,7 @@
 				</tr>
 		</table>
 		<input type="hidden" name="oid" value=<?= $orderId ?>>
-		<table class="order">
+		<table class="order flowers">
 			<tr>
 				<th>Quantity</th>
 				<th>Flower</th>
@@ -57,7 +57,8 @@
 			</tr>
 		
 			<?php foreach ($orderFlowers as $key => $value): ?>
-				<tr>
+
+				<tr id=<?= '"row_'.$key.'"' ?>>
 					<td> 	
 						<input 	id=<?= '"qty_'.$key.'"' ?> 
 										name=<?= '"flower['.$key.'][qty]"' ?>
@@ -77,7 +78,7 @@
 						<option value=<?= '"'.$value['fvariety'].'"' ?> >
 										<?= $value['fvariety'] ?> </option> </select>
 					</td>
-					<td id=<?= '"td_'.$key.'"'  ?>>
+					<td>
 						<select	id=<?= '"container_'.$key.'"' ?> 
 										name=<?= '"flower['.$key.'][container]"' ?> >
 						<option	value=<?=  '"'.$value['fcontainer'].'"' ?> >
@@ -85,6 +86,7 @@
 					</td>
 				</tr>
 			<?php endforeach; ?>
+				
 			<tr id="submitRow">
 				<td>
 					<input class="btn" type="submit" value="Submit">

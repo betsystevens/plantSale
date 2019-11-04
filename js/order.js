@@ -1,51 +1,106 @@
-var rows = function () {
-	var theCount;
-	return {
-		setCount : function(value) {
-			theCount = value;
-		},
-		incCount : function() {
-			theCount += 1;
-		},
-		getCount : function() {
-			return theCount;
-		}
-	}
-}();
+/**
+ *
+ *	Create rows of input and select elements.
+ *  Row of elements is added to form.
+ *  Form is used for adding a flower order or 
+ *  editing a flower order.
+ * 
+ */
+// html elements for a row in the order form
+const orderFields = [
+	{ 'tag' : 'input', 'field' : 'qty' },
+	{ 'tag' : 'select', 'field' : 'fname' },
+	{ 'tag' : 'select', 'field' : 'variety' },
+	{ 'tag' : 'select', 'field' : 'container' },
+	{ 'tag' : 'input', 'field' : 'addBtn' }
+];
+// attributes for quantity field
+const qtyAttrs = 
+{
+	'pattern' : '[0-9]{1,2}',
+	'title'   : 'Quantity must be less than 100',
+	'size'    :  '3',
+	'required' : 'true'
+}
+// attributes for add button
+const addBtnAttrs = {
+	'type' : 'button',
+	'value' : '(+)'
+}
 
-// Add a row to the entry form to enter flowers for ordering 
-function addRow() {
-	let rowNum = rows.getCount();
-	$("#addSign").remove();
-	$("#submitRow").before("<tr>" +
-		   	"<td>" +
-				"<input id='qty_"+rowNum+"'" +
-				" name='flower["+rowNum+"][qty]' pattern='[0-9]{1,2}'" + 
-				"title='Quantity must be less than 100' size='3' required>" +
-			"</td>" +
-			"<td><select id='fname_"+rowNum+"'" +
-				" name='flower["+rowNum+"][fname]'></select></td>" +
-			"<td><select id='variety_"+rowNum+"'" +
-				"name='flower["+rowNum+"][variety]'></select></td>" +
-			"<td><select id='container_"+rowNum+"'" +
-			"name='flower["+rowNum+"][container]'></select></td>" +
-			"<td id='addSign'><input id='addBtn' type='button' value='(+)'></td>" +
-			"</tr>");
-	var data = {
-		"id" : "#fname_"+rowNum
+const countRows = () => document.querySelectorAll('input[id*="qty"]').length;
+
+/** 
+ *	add attributes to an element
+ *	@param	{obj}			el - one html document element 
+ *	@param	{obj}			attrs	- attribute name and value pairs
+ */	
+function addAttrs(el, attrs) {
+	for (let prop in attrs) {
+		el[prop] = attrs[prop];
 	}
-	callAjax("getFlowers.php", insertOptions, data);
-	// insertOptions.call(data, flowers);
-	addEvents(rowNum);
-	rows.incCount();
 };
 
-function addAddBtn() {
-	let rowNum = rows.getCount();
-	rowNum--;
-	$("#td_"+rowNum).after("<td id='addSign'>" + 
-		"<input id='addBtn' type='button' value='(+)'></td>");
+// create array of elements for new row in order form
+const rowCells = orderFields.map((item) => {
+	return document.createElement(item.tag);	
+})
+
+/**
+ * create elements for new row in the order entry form 
+ * add the row number to their id and name attributes
+ */
+const createRowElements = () => {
+	const cells = orderFields.map((item) => {
+		let el = document.createElement(item.tag);
+		let rowCount = countRows();
+		el.id = `${item.field}_${rowCount}`;
+		el.name = `flower[${rowCount}][${item.field}]`;
+		return el;
+	});
+	return cells;
 }
+
+// add an add(+) button to last row of edit order
+function addAddBtn() {
+	let newAddBtn = document.createElement('input');
+	addAttrs(newAddBtn, addBtnAttrs);
+	let rowNum = countRows() - 1;
+	newAddBtn.id = `addBtn_${rowNum}`;
+	newAddBtn.addEventListener('click', addHandler);
+	idString = '#row_' + rowNum;
+	let row = document.querySelector(idString);
+	let cell = row.insertCell(-1);
+	cell.appendChild(newAddBtn);
+}
+
+// event handler for the add button, adds another input row to the form
+const addHandler = () => {
+	const newElements = createRowElements(); 
+	addAttrs(newElements[0], qtyAttrs);
+	addAttrs(newElements[4], addBtnAttrs);
+	//  insert row into the form table
+	let newRow = document.querySelector('table.order.flowers').insertRow(countRows() + 1);
+  newRow.id = "row_" + countRows();	
+	// add each element to newly created row
+	newElements.forEach((item, index) => {
+		newRow.insertCell(index).appendChild(item);
+	});
+	// ugly, fix it
+	// 
+	let curRow = countRows() - 1;
+	var data = {
+		"id" : "#fname_"+ curRow
+	}
+	callAjax("getFlowers.php", insertOptions, data);
+	addEvents(curRow);
+}
+
+/**
+ *	@param		{string} 	id			id of element event was fired on
+ *
+ * 	@returns	{number} 	rownum
+ */
 
 function getRowNum(id) {
 	let i = id.indexOf("_") + 1;
@@ -55,11 +110,14 @@ function getRowNum(id) {
 }
 
 function addEvents(rowNum) {
-	console.log("add events row: " + rowNum);
-	$('#addBtn').on('click', addRow);
-	$('#variety_'+rowNum).change(updateContainer);
-	$('#fname_'+rowNum).change(updateVariety);
-	$("#fname_"+rowNum).trigger("change");
+	$(`input[id="addBtn_${rowNum}"]`).on('click', addHandler);
+
+	$(`#variety_${rowNum}`).change(updateContainer);
+	// let el = document.getElementById(`variety_${rowNum}`);
+	// el.addEventListener("change", updateContainer);
+	
+	$(`#fname_${rowNum}`).change(updateVariety);
+	$(`#fname_${rowNum}`).trigger("change");
 }
 
 function updateVariety() {
@@ -115,20 +173,13 @@ function callAjax(url, handler, data) {
 };
 
 $("document").ready(function() {
-	// $("form > *").css("font-style", "italic");
-	
 	var el = document.querySelector("#orderTotal");
-
+  // is it editOrder.html.php 
 	if (el) { 
-		var inputNodes = document.querySelectorAll('input[id*="qty"]');
-		rows.setCount(inputNodes.length);
 		addAddBtn();
-		$('#addBtn').on('click', addRow);
-		// addEvents(rows.getCount()-1);
 	}
+	// or is it addOrder.html.php
 	else { 
-		rows.setCount(1);
 		addEvents(0);
 	}
 });
-
