@@ -9,6 +9,7 @@ if(!isset($_SESSION['login']))
 try {
 	include __DIR__ . '/../includes/DatabaseConnection.php';
 	include __DIR__ . '/../includes/DatabaseFunctions.php';
+	// scout form has been fille out
 	if (isset($_POST['lastname'])) {
 		$title = '';
 		$output = '';
@@ -16,7 +17,8 @@ try {
 
 		header('location: scouts.php');	
 	}
-	
+
+	// display form for adding scout data
 	$title = 'Add a scout';
 	ob_start();
 

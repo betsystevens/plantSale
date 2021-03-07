@@ -1,6 +1,5 @@
 <form id="addOrder" method="post" action="">
-	<fieldset class="order">
-		<legend>Add Order</legend>
+<h2>Add Order</h2>
 		<table class="order">
 			<tr>
 				<th>Scout</th>
@@ -36,17 +35,18 @@
 				</tr>
 				<tr>
 					<th>Check or Cash</th>
-					<th>Amount</th>
+					<th>Paid</th>
 				</tr>
 				<tr>
 					<td>
 						<input class="payment" name="paytype">
 					</td>
 					<td>
-						<input class="payment" name="amount">
+						<input class="payment" name="amount" value="0">
 					</td>
 				</tr>
 		</table>
+
 		<table class="order flowers">
 			<tr>
 				<th>Quantity</th>
@@ -100,9 +100,4 @@
 				</td>
 			</tr>
 		</table>
-	</fieldset>
 </form>	
-
-<script type="text/javascript" defer="defer"
-		src="../js/order.js">
-</script>

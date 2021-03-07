@@ -3,9 +3,11 @@ try {
 	include __DIR__ . '/../includes/DatabaseConnection.php';
 	include __DIR__ . '/../includes/DatabaseFunctions.php';
 
-	$where = ['fname' => $_POST['fname']];
-	$varieties = getColumnsWhere($pdo, ['fvariety'], ['flower'], $where);
-
+	// replace two line
+	// $where = ['fname' => $_POST['fname']];
+	// $varieties = getColumnsWhere($pdo, ['fvariety'], ['flower'], $where);
+	// with this line
+	$varieties = fVarieties($pdo, $_POST['fname']);
 	echo json_encode($varieties);
 }
 catch (PDOException $e) {

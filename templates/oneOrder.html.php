@@ -1,43 +1,43 @@
-<h5>
-	<?= 'Total $' . $orderTotal[0]['total'] ?>
-</h5>
-<h5>
-	<?= 'Paid $' . $order['amount'] ?>
-</h5>
-<h5>
-		<?= 'Cash/Check: ' . $order['paytype'] ?>
-</h5>
-<p></p>
-<div class="across">
-	<h5 class="item">
-		<?= 'Order# ' . $orderId ?>
-	</h5>
-	<h5 class="item">
-		<?= $scout[0]['lastname'].', '.$scout[0]['firstname'] ?>
-	</h5>
-	<h5 class="item">
-		<?=
-		$customer[0]['lastname'] . ', ' . $customer[0]['firstname'] ?>
-	</h5>
-</div>
-</br>
-</br>
-<div class="one">
-	<?php foreach ($orderFlowers as $key => $value): ?>
+<h2>Order# <?= $orderId ?> </h2>
+  <div class="grid three-col">
+		<h4>
+			<?= $scout[0]['lastname'].', '.$scout[0]['firstname'] ?>
+		<h4>	
+			<?= $customer[0]['lastname'] . ', ' . $customer[0]['firstname'] ?>
+		</h4>
+		<h4>
+		</h4>
+	 	
+		<div>
+			<span class="bold size-15">Cash/Check:</span>
+			<span class="size-15"><?= '$' .$order['paytype'] ?>	</span>
+		</div>
+		<div>
+			<span class="bold size-15">Paid</span>
+			<span class="size-15"><?= '$' .$order['amount'] ?>	</span>
+		</div>	
+		<div>
+			<span class="bold size-15">Total</span>
+			<span class="size-15"><?= '$' .$orderTotal[0]['total'] ?></span>
+		</div>		
+	</div>			
 				
-		<div class="flower container"> 	
-			<div><?= $value['qty'] ?></div>
-			<div><?= $value['fname'] ?></div>
+
+	<?php foreach ($orderFlowers as $key => $value): ?>
+		<div class="grid four-col">
+			<div class="qty"><?= $value['qty'] ?></div>
+			<div class="fname"><?= $value['fname'] ?></div>
 			<div><?= $value['fvariety'] ?></div>
 			<div><?= $value['fcontainer'] ?></div>
 		</div>								
-	
 	<?php endforeach; ?>
-</div>
-	<div class="one">
+
+	<!-- <div class="one"> -->
+	<div class="grid three-btn"> 
+	<!-- <div> -->
 		<a class="btn" href="addCustomer.php">Add Customer</a>
 		<a class="btn" href="addOrder.php?sid=<?=$scout[0]['scoutid']?>">
-				Add Another Order</a>
+				Add Order</a>
 		<a class="btn" href="editOrder.php?id=<?=$orderId?>">Edit</a>
 	</div>				
 	

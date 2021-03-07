@@ -31,9 +31,8 @@ class Auth {
 		}
 	}
 
-
 	public function checklogin() {
 
-		return (isset($_SESSION['logged_in']);
+		return (isset($_SESSION['logged_in']));
 	}
 }

@@ -1,3 +1,12 @@
 includes/DatabaseConnection.php
 includes/logFile
 docs/
+.vscode/
+ahbsps.pem
+sketch/
+
+scp.cmds
+ssh.cmd
+
+changesToMake
+dumps/

@@ -4,28 +4,38 @@
 <head>
 	<meta charset="utf-8">
 	<link rel="stylesheet" type="text/css" href="ps.css">
-	<script src="https://ajax.googleapis.com/ajax/libs/
-	jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js">
+	</script>
 	<title><?=$title?></title>
 </head>
 <body>
-	<header>
-		<h1>Boy Scout Plant Sale</h1>
-	</header>
-	<nav>
+<div class="page">
+	<nav class="top">
 		<ul>
-			<li><a href="index.php">Home</a></li>
-			<li><a class="arrow" href="#">Scouts</a>
+			<li><a class="logo" href="index.php">✽</a></l>
+			<li><a href="scouts.php">Scouts</a> </li>
+			<li><a href="customers.php">Customers</a></li>
+			<li><a href="orders.php">Orders</a></li>
+			<li><a href="logout.php">Logout</a></li>
+		</ul>
+	</nav>
+	<header>
+		<!-- <h1> -->
+		<!-- </h1> -->
+	</header>
+	<nav class="side left">
+		<ul>
+			<li>Orders <span class="arrow"> &#x25bc </span> 
 				<ul>
 					<li>
-						<a href="addScout.php">Add Scout</a>
+						<a href="addOrder.php">Add Order</a>
 					</li>
 					<li>
-						<a href="scouts.php">List Scouts</a>
+						<a href="orders.php">List Orders</a>
 					</li>
 				</ul>
-			</li>
-			<li><a class="arrow" href="#">Customers</a>
+			</li>		
+			<li>Customers <span class="arrow"> &#x25bc </span> 
 				<ul>
 					<li>
 						<a href="addCustomer.php">Add Customer</a>
@@ -35,24 +45,38 @@
 					</li>
 				</ul>
 			</li>
-			<li><a class="arrow" href="">Orders</a>
+			<li>Scouts <span class="arrow"> &#x25bc </span>
 				<ul>
 					<li>
-						<a href="addOrder.php">Add Order</a>
+						<a href="addScout.php">Add Scout</a>
 					</li>
 					<li>
-						<a href="orders.php">List Orders</a>
+						<a href="scouts.php">List Scouts</a>
 					</li>
 				</ul>
-			</li>
-			<li><a href="logout.php">Logout</a></li>
+			</li>			
+			<li>Download<span class="arrow"> &#x25bc </span>
+				<ul>
+					<li>
+						<a href="exportFile.php?report=flower">Flower Order</a>
+					</li> 
+					<li>
+						<a href="exportFile.php?report=all">All Data</a>
+					</li> 
+				</ul>
+			</li>	
 		</ul>
 	</nav>
-	<main>
+	<main class="main">
 		<?=$output?>
 	</main>
+
 	<footer>
-		 &copy; BSPS <?=date('Y')?>
+		 <p>&copy; bsps <?=date('Y')?></p>
 	</footer>
+</div>
+<script type="text/javascript" defer="defer"
+		src="../js/order.js">
+</script>
 </body>
 </html>

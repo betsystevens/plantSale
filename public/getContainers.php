@@ -4,8 +4,8 @@ try {
 	include __DIR__ . '/../includes/DatabaseFunctions.php';
 
 	$where['fname'] = $_POST['fname'];
-	$where['fvariety'] = $_POST['fvariety'];
-	$containers = getColumnsWhere($pdo, ['fcontainer'], ['flower'], $where);
+
+	$containers = fContainers($pdo, $_POST['fname'], $_POST['fvariety']);
 
 	echo json_encode($containers);
 }

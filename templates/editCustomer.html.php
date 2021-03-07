@@ -8,40 +8,38 @@
 	$telno = htmlspecialchars($customer['telno'], ENT_QUOTES, 'UTF-8');
 
 ?>	
-<form action="" ="" method="post">
-	<fieldset>
-		<legend>Edit Customer</legend>
+<form class="med" action="" method="post">
+<h2>Edit Customer</h2>
 		<p>
 			<label for="custid">Customer Id</label>
-			<input type="text" name="id" size="4"
+			<input class="small id" type="text" name="id"
 					value="<?=$custid?>" readonly>
 		</p>
 		<p>
 			<label for="lastname">Last name</label>
 			<input type="text" name="lastname"
-					value="<?=$lastname?>" size="40">
+					value="<?=$lastname?>">
 		</p>
 		<p>
 			<label for="firstname">First Name</label>
 			<input type="text" name="firstname"
-					value="<?=$firstname?>" size="40">
-		</p>
-		<p>
-			<label for="email">Email</label>
-			<input type="text" name="email"
-					value="<?=$email?>" size=60>
+					value="<?=$firstname?>">
 		</p>
 		<p>
 			<label for="address">Address</label>
 			<input type="text" name="address"
-					value="<?=$address?>" size="60">
+					value="<?=$address?>">
+		</p>
+		<p>
+			<label for="email">Email</label>
+			<input type="email" name="email"
+					value="<?=$email?>">
 		</p>
 		<p>
 			<label for="telno">Telephone</label>
-			<input type="text" name="telno"
-					value="<?=$telno?>" size="15">
+			<input class="med" type="text" name="telno"
+					value="<?=$telno?>">
 		</p>
-	</fieldset>
 	<input class="btn" type="submit" name="submit" value="Submit">
 	<a class="btn" href="customers.php">Cancel</a>
 </form>

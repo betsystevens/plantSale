@@ -9,7 +9,7 @@ try {
 	include __DIR__ . '/../includes/DatabaseConnection.php';
 	include __DIR__ . '/../includes/DatabaseFunctions.php';
 
-		// customer form is filled out
+	// customer form has been filled out
 	if (isset($_POST['lastname'])) {
 		$title = '';
 		$output = '';
@@ -17,6 +17,7 @@ try {
 		$custId = insertCustomer($pdo, $_POST['lastname'], $_POST['firstname'],
 						$_POST['email'], $_POST['telno'], $_POST['address']);
 
+		// usually, after adding a customer an order needs to be added
 		header('location: addOrder.php?cid='.$custId[0]);
 	} 
 	else {

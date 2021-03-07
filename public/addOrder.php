@@ -12,15 +12,15 @@ try {
 	$title = '';
 	$output = '';
 
-	// form is filled out, submitted, insert order
-	if (isset($_POST['flower'])) {
 
+	if (isset($_POST['flower'])) {
+	  	// form has been filled out and submitted, insert flower order
 		$oid = insertOrder($pdo, $_POST['customer'],$_POST['scout'], 
 						$_POST['paytype'],$_POST['amount'],$_POST['flower']);
 
 		if ($oid)
 			header('location: oneOrder.php?id='.$oid);
-		else
+		else  // when would this happen? some error? if zero flowers?
 			header('location: orders.php');
 	}
 	
@@ -29,11 +29,10 @@ try {
 	$customers = getAllOrderBy($pdo, 'customer', 'lastname');
 	$flowerNames = flowerNames($pdo);
 	// get the first flower's variety & container
-	$where['fname'] = $flowerNames[0][0];
-	$varieties = getColumnsWhere($pdo, ['fvariety'], ['flower'], $where);
-	$where['fvariety'] = $varieties[0][0];
 
-	$containers = getColumnsWhere($pdo, ['fcontainer'], ['flower'], $where);
+	$varieties = fVarieties($pdo, $flowerNames[0][0]);
+
+	$containers = fContainers($pdo, $flowerNames[0][0], $varieties[0][0]);
 
 	$title = 'Add Flower Order';
 

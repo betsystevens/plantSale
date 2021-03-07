@@ -1,52 +1,63 @@
-<form id="editOrder" method="post" action="">
-	<fieldset class="order">
-		<legend>Edit Order #<?= $orderId ?></legend>
-		<h3 id="orderTotal">
-			<?= "Total: $" .$orderTotal[0]['total'] ?>
-		</h3>
+ 	<form id="editOrder" method="post" action="">
+ 	<h2>Edit Order# <?= $orderId ?> </h2>
 		<table class="order">
 			<tr>
 				<th>Scout</th>
-				<th>Customer</th>
+				<th>Customer</th>	
 			</tr>
 			<tr>
-				<td>
-				<div>
-					<select id="scout" name="scout" required >
-						<option value=<?= $scouts[0]['scoutid'] ?> >
-								<?= $scouts[0]['lastname'].', '
-											.$scouts[0]['firstname'] ?>
-						</option>
-					</select>
-				</div>
-				</td>
-				<td>
-					<div>
-						<select id="customer" name="customer" required="">
-							<option value=<?= $customers[0]['custid'] ?>>
-									<?= $customers[0]['lastname'].', '
-												.$customers[0]['firstname'] ?>
+	 			<td>
+				 <div class="select">
+					<select id="scout" name="scout" autofocus="autofocus" required>
+						<?php foreach($scouts as $scout): ?>
+							<option value=<?=$scout[0]?>
+								<?php if($scout[0] == $scoutId) : ?>
+									selected
+								<?php endif; ?> >
+								<?= $scout[1] . ', ' . $scout[2] ?>
 							</option>
+						<?php endforeach; ?>
+					</select>
+					</div>
+	 			</td>
+				<td>
+					<div class="select">
+						<select id="customer" name="customer" required>
+							<?php foreach($customers as $customer): ?>
+								<option value=<?=$customer[0]?>
+									<?php if($customer[0] == $custId) : ?>
+										selected
+									<?php endif; ?> >
+									<?= $customer[1] . ', ' . $customer[2] ?>
+								</option>
+							<?php endforeach; ?>
 						</select>
 					</div>
 				</td>
 			</tr>
 			<tr>
-					<th>Check or Cash</th>
-					<th>Amount</th>
-				</tr>
-				<tr>
-					<td>
-						<input class="payment" name="paytype"
-										value="<?=$order['paytype'] ?>">
-					</td>
-					<td>
-						<input class="payment" name="amount"
-										value="<?=$order['amount'] ?>">
-					</td>
-				</tr>
-		</table>
-		<input type="hidden" name="oid" value=<?= $orderId ?>>
+				<th>Check or Cash</th>
+				<th>Paid</th>
+				<th>Total</th>
+			</tr>
+			<tr>
+				<td>
+				<input class="payment" name="paytype"
+								value="<?=$order['paytype'] ?>">
+				</td>	
+				<td>
+				<input class="payment" name="amount"
+								value="<?=$order['amount'] ?>">
+				</td>	
+				<td>
+					<div class="display med"><?= $orderTotal[0]['total'] ?></div>
+					<!-- <input class="payment" name="foo" readonly -->
+								<!-- value="<?= $orderTotal[0]['total'] ?>"> -->
+				</td>	
+				<td>
+				<input type="hidden" name="oid" value=<?= $orderId ?>>
+				</td>
+			</tr>
 		<table class="order flowers">
 			<tr>
 				<th>Quantity</th>
@@ -96,9 +107,4 @@
 				</td>
 			</tr>
 		</table>
-	</fieldset>
 </form>	
-
-<script type="text/javascript" defer="defer"
-		src="../js/order.js">
-</script>

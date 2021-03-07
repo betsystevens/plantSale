@@ -28,6 +28,7 @@ const addBtnAttrs = {
 	'value' : '(+)'
 }
 
+// count rows in table, excluding header row
 const countRows = () => document.querySelectorAll('input[id*="qty"]').length;
 
 /** 
@@ -40,12 +41,14 @@ function addAttrs(el, attrs) {
 		el[prop] = attrs[prop];
 	}
 };
-
 // create array of elements for new row in order form
 const rowCells = orderFields.map((item) => {
+	console.log(document);
+	console.log("hello");
+	console.log(`${orderFields}`);
+	console.log(document.createElement(item.tag));	
 	return document.createElement(item.tag);	
 })
-
 /**
  * create elements for new row in the order entry form 
  * add the row number to their id and name attributes
@@ -60,8 +63,9 @@ const createRowElements = () => {
 	});
 	return cells;
 }
-
-// add an add(+) button to last row of edit order
+/**
+ * add an add(+) button to last row of table 
+ */
 function addAddBtn() {
 	let newAddBtn = document.createElement('input');
 	addAttrs(newAddBtn, addBtnAttrs);
@@ -73,8 +77,9 @@ function addAddBtn() {
 	let cell = row.insertCell(-1);
 	cell.appendChild(newAddBtn);
 }
-
-// event handler for the add button, adds another input row to the form
+/**
+ *  event handler for the add button, adds another input row to the form
+ */
 const addHandler = () => {
 	const newElements = createRowElements(); 
 	addAttrs(newElements[0], qtyAttrs);
@@ -98,8 +103,7 @@ const addHandler = () => {
 
 /**
  *	@param		{string} 	id			id of element event was fired on
- *
- * 	@returns	{number} 	rownum
+ * 	@return		{number} 	rownum
  */
 
 function getRowNum(id) {
@@ -111,11 +115,7 @@ function getRowNum(id) {
 
 function addEvents(rowNum) {
 	$(`input[id="addBtn_${rowNum}"]`).on('click', addHandler);
-
 	$(`#variety_${rowNum}`).change(updateContainer);
-	// let el = document.getElementById(`variety_${rowNum}`);
-	// el.addEventListener("change", updateContainer);
-	
 	$(`#fname_${rowNum}`).change(updateVariety);
 	$(`#fname_${rowNum}`).trigger("change");
 }
@@ -173,7 +173,8 @@ function callAjax(url, handler, data) {
 };
 
 $("document").ready(function() {
-	var el = document.querySelector("#orderTotal");
+	// var el = document.querySelector("#orderTotal");
+	var el = document.querySelector("#editOrder");
   // is it editOrder.html.php 
 	if (el) { 
 		addAddBtn();

@@ -7,7 +7,7 @@
 						href="editCustomer.php?id=<?=$customer['custID']?>">edit</a>
 					</div>
 				<div class="innerFields">	
-					<?=prepOutput($customer['lastname'])?>
+					<?=prepOutput($customer['lastname']) . ", "?>
 					<?=prepOutput($customer['firstname'])?>
 					<?=prepOutput($customer['address'], '/ ')?>
 					<?=prepOutput($customer['telno'], '/ ')?>
