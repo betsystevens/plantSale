@@ -332,7 +332,9 @@ function allOrders($pdo) {
 					AND			of.orderid = oid
 					AND			c.custid = cid
 					AND			s.scoutid = sid
-					ORDER BY 	fcontainer,
+					ORDER BY 	s.lastname,
+										oid,
+										fcontainer,
 										fname, 
 										fvariety';
 	$result = query($pdo, $sql);
