@@ -18,7 +18,7 @@
 		</div>
 		<div>
 		  <span class="bold size-15">Paid </span> 
-		  <span class="size-15"><?= '$'.$order[0]['amount'] ?></span> 
+		  <span class="size-15 <?=$order[0]['alert']?>"><?= '$'.$order[0]['amount'] ?></span> 
 		</div>
 		<div>
 		  <span class="bold size-15">Total </span> 

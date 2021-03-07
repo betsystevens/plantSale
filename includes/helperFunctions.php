@@ -8,3 +8,8 @@ function prepOutput($output, $separator = '') {
 	}
 	return $output;
 }
+
+function isAmountEqualTotal($amount, $total) {
+	$amountFormatted = number_format((float)$amount, 2, '.', '');
+	return($total == $amountFormatted );
+}
