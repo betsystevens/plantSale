@@ -10,3 +10,4 @@ ssh.cmd
 
 changesToMake
 dumps/
+ec2/
