@@ -386,23 +386,23 @@ function everyThing($pdo) {
 						oid,
 						c.lastname as custLast, c.firstname as custFirst,
 						s.lastname as scoutLast, s.firstname as scoutFirst,
-						paytype, amount,
-						qty, fname, fvariety, fcontainer
+						paytype, amount, 
+						qty, fname, fvariety, fcontainer, retail, 0 as total
 						
 						FROM  orders INNER JOIN 
 									customer c ON cid = c.custID INNER JOIN
 									scout s ON sid = s.scoutid INNER JOIN
 									ordflowers of ON of.orderid = oid INNER JOIN
-									flower f ON f.flowerid = of.flowerid
+									flower f ON f.flowerid = of.flowerid INNER JOIN
+									price p ON fcontainer = p.container
 
 						GROUP BY oid,fcontainer, fname, fvariety
-						ORDER BY oid';
+						ORDER BY s.lastname, oid';
 		$result = query($pdo, $sql);
 		mylog($result);
 		// fetchAll() returns an array of all records retrieved
 		return $result->fetchAll(PDO::FETCH_ASSOC);	
 }
-
 
 function mylog($message)
 	{

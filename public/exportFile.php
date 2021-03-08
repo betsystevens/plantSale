@@ -1,4 +1,12 @@
 <?php
+  function getSubTotal($result) {
+    foreach($result as $key => $row) {
+      $result[$key]['amount'] = number_format((float)$row['amount'], 2, '.', '');
+      $total = $result[$key]['retail'] * $result[$key]['qty']; 
+      $result[$key]['total'] = number_format((float)$total, 2, '.', '');
+    }
+    return $result;
+  }
   try {
     include __DIR__ . '/../includes/DatabaseConnection.php';
     include __DIR__ . '/../includes/DatabaseFunctions.php';
@@ -11,10 +19,12 @@
         break;
       case 'all':
         $result = everyThing($pdo);
-        $filename = "allRecords" . date('Ymd') . ".csv";
-        $fields = array('oid', 'custLast', 'custFirst', 'scoutLast', 'scoutFirst', 'paytype', 'amount', 'qty','fname', 'fvariety', 'fcontainer');
+        $result = getSubTotal($result);
+        $filename = "allRecords2" . date('Ymd') . ".csv";
+        $fields = array('oid', 'custLast', 'custFirst', 'scoutLast', 'scoutFirst', 'paytype', 'amount', 'qty','fname', 'fvariety', 'fcontainer', 'price', 'total');
         break;
     }
+
     $delimiter = ",";
     
     //create a file pointer
@@ -42,5 +52,4 @@
           $e->getFile() . ':' . $e->getLine();
 }
 ?>
- 
  
