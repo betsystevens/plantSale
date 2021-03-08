@@ -324,12 +324,14 @@ function allOrders($pdo) {
 									qty, 
 									fname, 
 									fvariety, 
-									fcontainer
+									fcontainer,
+									retail
 					FROM
 									customer c, scout s, 
-									orders, flower f, ordflowers of
+									orders, flower f, ordflowers of, price p
 					WHERE		f.flowerid = of.flowerid
 					AND			of.orderid = oid
+					AND			fcontainer = p.container
 					AND			c.custid = cid
 					AND			s.scoutid = sid
 					ORDER BY 	s.lastname,

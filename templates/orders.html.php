@@ -27,11 +27,15 @@
 	</div>
 
 	<?php foreach ($order as $key => $value): ?>
-		<div class="grid four-col">
+		<div class="grid five-col">
 			<div class="qty"><?= $value['qty'] ?></div>
 			<div class="fname"><?= $value['fname'] ?></div>
 			<div><?= $value['fvariety'] ?></div>
 			<div><?= $value['fcontainer'] ?></div>
+			<div class="size-15 right"><?= $value['retail'] ?></div>
+			<div class="bold size-15 right">
+					<?= number_format((float)$value['retail'] * $value['qty'], 2, '.', '') ?>
+			</div>
 		</div>
 	<?php endforeach; ?>
 		<form class="flowers" action="deleteOrder.php" method="post">

@@ -60,6 +60,9 @@ p {
 .size-15 {
   font-size: 1.5rem;
 }
+.right {
+  text-align: right;
+}
 .bold {
   font-weight: bold;
 }
@@ -311,6 +314,14 @@ div.custInner {
 .grid.four-col {
   display: grid;
   grid-template-columns: 50px 150px 200px 200px;
+  grid-gap: 5px;
+  margin-bottom: 20px;
+  border-bottom: 1px dashed gray;
+}
+
+.grid.five-col {
+  display: grid;
+  grid-template-columns: 50px 150px 180px 160px 50px 50px;
   grid-gap: 5px;
   margin-bottom: 20px;
   border-bottom: 1px dashed gray;
