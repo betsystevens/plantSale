@@ -311,8 +311,6 @@ function getFlowerID($pdo, $fname, $variety, $container) {
 	return $row[0];
 }
 
-
-
 function allOrders($pdo) {
 	$sql = 'SELECT 	oid,
 									c.lastname as custLast,
@@ -345,12 +343,11 @@ function allOrders($pdo) {
 function orderPrice($pdo, $oid) {
 	$sql =	'SELECT 	of.orderid,
 										sum(of.qty * p.retail) as total
-					FROM			ordflowers of 
-					INNER JOIN 	flower f 
-								ON		of.flowerid = f.flowerid
-								INNER JOIN 	price p 
-											ON 		f.fcontainer = p.container
-											AND 	of.orderid = :oid'; 
+					FROM ordflowers of 
+					INNER JOIN flower f 
+						ON of.flowerid = f.flowerid
+					INNER JOIN 	price p 
+						ON f.fcontainer = p.container AND of.orderid = :oid'; 
 	$parameters = [ ':oid' => $oid ];				
 	$result = query($pdo, $sql, $parameters);
 	return $result->fetchAll();
@@ -362,20 +359,13 @@ function flowersOrdered($pdo) {
 						fname, fvariety, fcontainer,
 						retail, sum(qty * retail),
 						wholesale, sum(qty * wholesale)
-					FROM		
-						flower f
-					INNER JOIN
-						ordflowers o
-					ON
-						o.flowerid = f.flowerid
-					INNER JOIN 
-						price p 
-					ON
-						f.fcontainer = p.container
-					GROUP BY
-						f.flowerid            
-					ORDER BY
-						f.flowerid';
+					FROM flower f
+					INNER JOIN ordflowers o
+						ON o.flowerid = f.flowerid
+					INNER JOIN price p 
+						ON f.fcontainer = p.container
+					GROUP BY f.flowerid            
+					ORDER BY f.flowerid';
 	$result = query($pdo, $sql);
 	mylog($result);
 	// fetchAll() returns an array of all records retrieved
@@ -389,14 +379,19 @@ function everyThing($pdo) {
 						paytype, amount, 
 						qty, fname, fvariety, fcontainer, retail, 0 as total
 						
-						FROM  orders INNER JOIN 
-									customer c ON cid = c.custID INNER JOIN
-									scout s ON sid = s.scoutid INNER JOIN
-									ordflowers of ON of.orderid = oid INNER JOIN
-									flower f ON f.flowerid = of.flowerid INNER JOIN
-									price p ON fcontainer = p.container
+						FROM orders 
+						INNER JOIN customer c 
+							ON cid = c.custID
+						INNER JOIN scout s 
+							ON sid = s.scoutid 
+						INNER JOIN ordflowers of 
+							ON of.orderid = oid 
+						INNER JOIN flower f 
+							ON f.flowerid = of.flowerid 
+						INNER JOIN price p 
+							ON fcontainer = p.container
 
-						GROUP BY oid,fcontainer, fname, fvariety
+						GROUP BY oid, fcontainer, fname, fvariety
 						ORDER BY s.lastname, oid';
 		$result = query($pdo, $sql);
 		mylog($result);
