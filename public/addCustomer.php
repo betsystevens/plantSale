@@ -1,42 +1,31 @@
 <?php
 session_start();
 
-if(!isset($_SESSION['login']))
-{
-	header('location: login.php');
+if(!isset($_SESSION['login'])) { header('location: login.php'); }
+include __DIR__ . '/../includes/DatabaseConnection.php';
+include __DIR__ . '/../includes/DatabaseFunctions.php';
+
+// customer form has been filled out
+if (isset($_POST['lastname'])) {
+	$title = '';
+	$output = '';
+
+	$custId = insertCustomer($pdo, $_POST['lastname'], $_POST['firstname'],
+					$_POST['email'], $_POST['telno'], $_POST['address']);
+
+	// usually, after adding a customer an order needs to be added
+	header('location: addOrder.php?cid='.$custId[0]);
+} 
+else {
+	// display form to add customer data
+	$title = 'Add a customer';
+
+	ob_start();
+
+	include __DIR__ . '/../templates/addCustomer.html.php';
+
+	$output = ob_get_clean();
+
 }
-try {
-	include __DIR__ . '/../includes/DatabaseConnection.php';
-	include __DIR__ . '/../includes/DatabaseFunctions.php';
 
-	// customer form has been filled out
-	if (isset($_POST['lastname'])) {
-		$title = '';
-		$output = '';
-
-		$custId = insertCustomer($pdo, $_POST['lastname'], $_POST['firstname'],
-						$_POST['email'], $_POST['telno'], $_POST['address']);
-
-		// usually, after adding a customer an order needs to be added
-		header('location: addOrder.php?cid='.$custId[0]);
-	} 
-	else {
-		// display form to add customer data
-		$title = 'Add a customer';
-
-		ob_start();
-
-		include __DIR__ . '/../templates/addCustomer.html.php';
-
-		$output = ob_get_clean();
-
-	}
-}
-catch (PDOException $e) {
-	$title = 'An error occured';
-
-	$output = 'Database error: ' . $e->getMessage() . ' in ' .
-				$e->getFile() . ':' . $e->getLine();
-}
 include __DIR__ . '/../templates/layout.html.php';
-?>

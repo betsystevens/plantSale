@@ -1,34 +1,25 @@
 <?php
-try {
-	include __DIR__ . '/../includes/DatabaseConnection.php';
-	include __DIR__ . '/../includes/DatabaseFunctions.php';
+include __DIR__ . '/../includes/DatabaseConnection.php';
+include __DIR__ . '/../includes/DatabaseFunctions.php';
 
-	if (recordFound($pdo, 'orders', 'sid', $_POST['id'])) {	
-		$message = 'There is an order for this scout' . '<br>' . '<br>';
-		$message .= "Order(s) must be deleted before scout can be deleted";
-		$message .= "<br>";
+if (recordFound($pdo, 'orders', 'sid', $_POST['id'])) {	
+	$message = 'There is an order for this scout' . '<br>' . '<br>';
+	$message .= "Order(s) must be deleted before scout can be deleted";
+	$message .= "<br>";
 
-		$title = 'Alert';
+	$title = 'Alert';
 
-		$link = 'scouts.php';
-		ob_start();
+	$link = 'scouts.php';
+	ob_start();
 
-		include __DIR__ . '/../templates/alert.html.php';
+	include __DIR__ . '/../templates/alert.html.php';
 
-		$output = ob_get_clean();
-	}
-	else {
-		$output = '';
-		$title = '';
-		deleteById($pdo, 'scout', 'scoutid', $_POST['id']);
-		header('location: scouts.php');
-	}
+	$output = ob_get_clean();
 }
-catch (PDOEception $e) {
-	$title = 'An error has occurred';
-
-	$output = 'Database error: ' . $e->getMessage() . ' in ' .
-				$e->getFile() . ':' . $e->getLine();
+else {
+	$output = '';
+	$title = '';
+	deleteById($pdo, 'scout', 'scoutid', $_POST['id']);
+	header('location: scouts.php');
 }
 include __DIR__ . '/../templates/layout.html.php';
-?>
