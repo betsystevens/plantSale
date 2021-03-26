@@ -1,5 +1,5 @@
-<h2>Scout Totals: <?= $total ?></h2>
-<?php foreach ($totalsRecord as $scoutRecord): ?>
+<h2><?= $title ?></h2>
+<?php foreach ($totalsRecords as $scoutRecord): ?>
   <div class="grid four-col">
     <div><?=$scoutRecord['ID']?></div>
     <div><?=$scoutRecord['Scout']?></div>

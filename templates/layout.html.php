@@ -61,7 +61,7 @@
 						<a href="scoutsTotals.php">Scouts Totals</a>
 					</li>
 					<li>
-						<a href="scouts.php">Orders by Scout</a>
+						<a href="scoutsTotals.php">Scouts Totals</a>
 					</li>
 				</ul>
 			</li>			
