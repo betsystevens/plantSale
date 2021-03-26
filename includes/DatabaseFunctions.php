@@ -404,6 +404,29 @@ function everyThing($pdo) {
 		return $result->fetchAll(PDO::FETCH_ASSOC);	
 }
 
+function scoutTotals($pdo) {
+	$sql = 'SELECT
+						sum(of.qty * p.retail) as "Total",
+						s.scoutid as ID,
+						concat(s.firstname, " ", s.lastname) as "Scout",
+						count(distinct o.oid) as "Orders"
+						FROM orders o
+						INNER JOIN ordflowers of
+							ON of.orderid = o.oid
+						INNER JOIN flower f 
+							ON f.flowerid = of.flowerid
+						INNER JOIN price p
+							ON p.container = f.fcontainer
+						INNER JOIN scout s
+							ON s.scoutid = o.sid
+						GROUP BY Scout
+						ORDER BY Total desc';
+		$result = query($pdo, $sql);
+		mylog($result);
+		// fetchAll() returns an array of all records retrieved
+		return $result->fetchAll(PDO::FETCH_ASSOC);	
+}
+
 function mylog($message)
 	{
 		ob_start();

@@ -55,6 +55,16 @@
 					</li>
 				</ul>
 			</li>			
+			<li>Reports <span class="arrow"> &#x25bc </span>
+				<ul>
+					<li>
+						<a href="scoutsTotals.php">Scouts Totals</a>
+					</li>
+					<li>
+						<a href="scouts.php">Orders by Scout</a>
+					</li>
+				</ul>
+			</li>			
 			<li>Download<span class="arrow"> &#x25bc </span>
 				<ul>
 					<li>
