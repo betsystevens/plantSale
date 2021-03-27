@@ -9,7 +9,7 @@
 
 ?>	
 <form class="med" action="" method="post">
-<h2>Edit Customer</h2>
+<h2><?= $title ?></h2>
 		<p>
 			<label for="custid">Customer Id</label>
 			<input class="small id" type="text" name="id"

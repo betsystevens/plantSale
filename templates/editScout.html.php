@@ -4,7 +4,7 @@
 	$firstname = htmlspecialchars($scout['firstname'], ENT_QUOTES, 'UTF-8');
 ?>
 <form action="" method="post">
-<h2>Edit Scout</h2>
+<h2><?= $title ?></h2>
 		<p>
 			<label for="scoutid">Scout Id</label>
 			<input class="small id" type="text" name="id" size="4"
