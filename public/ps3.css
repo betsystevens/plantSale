@@ -22,8 +22,8 @@ html {
 body {
   margin: 0;
   font-size: var(--baseFontSize);
-  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue",
-    Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue',
+    Helvetica, Arial, 'Lucida Grande', sans-serif;
   font-weight: normal;
   color: var(--blackgray);
   display: flex;
@@ -201,7 +201,7 @@ main {
 /** buttons, input, submit **/
 
 .btn,
-input[type="submit"] {
+input[type='submit'] {
   display: inline-block;
   font-size: 1.6rem;
   font-style: italic;
@@ -227,15 +227,15 @@ input[type="submit"] {
   opacity: 1;
 }
 .btn:focus,
-input[type="submit"]:focus {
+input[type='submit']:focus {
   background: var(--tumeric);
 }
-input[id*="addBtn"] {
+input[id*='addBtn'] {
   font-size: 1.4rem;
   border-radius: 5px;
 }
 
-input[id*="addBtn"] {
+input[id*='addBtn'] {
   padding: 1px 7px 2px;
 }
 
@@ -338,8 +338,8 @@ input {
   border: 2px solid #dadada;
   border-style: inset;
 }
-input[type="email"],
-input[type="text"] {
+input[type='email'],
+input[type='text'] {
   padding: 7px 10px;
   margin: 10px;
   border-radius: 3px;
@@ -356,7 +356,7 @@ input.med {
 }
 
 input.small,
-input[id*="qty"] {
+input[id*='qty'] {
   width: 70px;
 }
 
@@ -416,7 +416,6 @@ select {
   line-height: 1.5;
   width: 200px;
 }
-
 form#addOrder,
 #editOrder {
   max-width: 900px;
