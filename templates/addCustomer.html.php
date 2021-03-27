@@ -1,4 +1,4 @@
-<h2>Add Customer</h2>
+<h2><?= $title ?></h2>
 <form action="" method="post">
 		<p>
 			<label for="lastname">Last Name:</label>

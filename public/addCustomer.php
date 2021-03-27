@@ -4,8 +4,9 @@ session_start();
 if(!isset($_SESSION['login'])) { header('location: login.php'); }
 include __DIR__ . '/../includes/DatabaseConnection.php';
 include __DIR__ . '/../includes/DatabaseFunctions.php';
+include __DIR__ . '/../classes/Template.php';
 
-// customer form has been filled out
+// customer form has been filled in
 if (isset($_POST['lastname'])) {
 	$title = '';
 	$output = '';
@@ -18,14 +19,9 @@ if (isset($_POST['lastname'])) {
 } 
 else {
 	// display form to add customer data
-	$title = 'Add a customer';
-
-	ob_start();
-
-	include __DIR__ . '/../templates/addCustomer.html.php';
-
-	$output = ob_get_clean();
-
+	$data = array(
+		'title' => 'Add Customer'
+	);
+	$view = new Template('addCustomer.html.php', $data);
+	echo $view->render();
 }
-
-include __DIR__ . '/../templates/layout.html.php';
