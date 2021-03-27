@@ -13,7 +13,8 @@ function findById($pdo, $table, $primaryKey, $value) {
 
 	$result = query($pdo, $sql, $parameters);
 	mylog("findById: table: ${table} id: ${value}");
-	return $result->fetch(); 
+	// return $result->fetch(); 
+	return $result->fetch(PDO::FETCH_ASSOC);	
 }
 function deleteById($pdo, $table, $key, $value){
 	$sql = 'DELETE FROM `'
@@ -100,7 +101,6 @@ function getCustForOrder($pdo, $oid) {
 }
 
 function orderById($pdo, $oid) {
-
 	$sql =	'SELECT of.orderid,
 									of.qty, 
 									f.fname, 
@@ -420,6 +420,30 @@ function scoutTotals($pdo) {
 		mylog($result);
 		// fetchAll() returns an array of all records retrieved
 		return $result->fetchAll(PDO::FETCH_ASSOC);	
+}
+
+function oneScoutsOrders($pdo, $sid) {
+	$sql = 
+		'SELECT concat(c.firstname," ", c.lastname) as "customer",
+		o.oid as "order",
+		qty, fname as "flower",
+		fvariety as "variety", fcontainer as "container"
+		FROM flower f
+		INNER JOIN ordflowers of
+ 		 	ON f.flowerid = of.flowerid
+		INNER JOIN orders o 
+  		ON of.orderid = o.oid
+		INNER JOIN customer c
+ 			ON o.cid = c.custid
+		INNER JOIN scout s
+  		ON o.sid = s.scoutid AND
+	    s.scoutid = :sid 
+		GROUP BY Customer, Container, Flower,Variety
+		ORDER BY o.oid, Container DESC, Flower, Variety';
+		$parameters = [ ':sid' => $sid ];				
+		$result = query($pdo, $sql, $parameters);
+		// return $result->fetchAll(PDO::FETCH_ASSOC);	
+		return $result->fetchAll(PDO::FETCH_GROUP);	
 }
 
 function mylog($message)
