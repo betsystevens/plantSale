@@ -7,11 +7,11 @@ class DatabaseTable {
 
 	public function __construct(PDO $pdo, string $table, string $primaryKey) {
 		$this->pdo = $pdo;
-		$this->$table = $table;
-		$this->$primayKey = $primaryKey;
+		$this->table = $table;
+		$this->primaryKey = $primaryKey;
 	}
 
-	private function query($sql, $paramerters = [])
+	private function query($sql, $parameters = [])
 	{
 		$query = $this->pdo->prepare($sql);
 		$query->execute($parameters);
@@ -25,25 +25,17 @@ class DatabaseTable {
 	}
 
 	public function findById($value) {
-
 		$sql = 'SELECT * FROM `' . $this->table . 
 						'` WHERE `' . $this->primaryKey . '` = :value';
-
 		$parameters = [ 'value' => $value];
-		
 		$query = $this->query($sql, $parameters);
-		
 		return $query->fetch();
 	}
 
 	public function findAll($orderBy) {
-
 		$sql = 'SELECT * FROM `' . $this->table .
 					 '` ORDER BY `' . $orderBy . '`';
-
 		$query = $this->query($sql);
-
-		return $query->fetchAll();
-
+		return $query->fetchAll(PDO::FETCH_ASSOC);
 	}
 }
