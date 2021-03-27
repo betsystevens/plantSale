@@ -1,21 +1,19 @@
 <?php
-session_start();
-
-if(!isset($_SESSION['login'])) { header('location: login.php'); }
+	session_start();
+	if(!isset($_SESSION['login'])) { header('location: login.php'); }
 
 	include __DIR__ . '/../includes/DatabaseConnection.php';
 	include __DIR__ . '/../includes/DatabaseFunctions.php';
+	include __DIR__ . '/../classes/Template.php';
 
 	$scouts = getAllOrderBy($pdo, 'scout', 'lastname');
-
 	$total = countRecords($pdo, 'scout');
 
-	$title = 'All Scouts';
+	$data = array(
+		'title' => 'All Scouts',
+		'scouts' => $scouts,
+		'total' => $total
+	);
 
-	ob_start();
-
-	include __DIR__ . '/../templates/scouts.html.php';
-
-	$output = ob_get_clean();
-
-include __DIR__ . '/../templates/layout.html.php';
+	$view = new Template('scouts.html.php', $data);
+	echo $view->render();
