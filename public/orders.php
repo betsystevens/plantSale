@@ -1,10 +1,7 @@
 <?php
 session_start();
+if(!isset($_SESSION['login'])) { header('location: login.php'); }
 
-if(!isset($_SESSION['login']))
-{
-	header('location: login.php');
-}
 try {
 	include __DIR__ . '/../includes/DatabaseConnection.php';
 	include __DIR__ . '/../includes/DatabaseFunctions.php';
@@ -34,4 +31,3 @@ catch (PDOException $e) {
 				$e->getFile() . ':' . $e->getLine();
 }
 include __DIR__ . '/../templates/layout.html.php';
-?>
