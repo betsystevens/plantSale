@@ -3,7 +3,6 @@
 	if(!isset($_SESSION['login'])) { header('location: login.php'); }
 
 	include __DIR__ . '/../includes/DatabaseConnection.php';
-	include __DIR__ . '/../includes/DatabaseFunctions.php';
 	include __DIR__ . '/../classes/DatabaseTable.php';
 	include __DIR__ . '/../classes/Template.php';
 
