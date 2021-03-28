@@ -4,10 +4,12 @@
 
 	include __DIR__ . '/../includes/DatabaseConnection.php';
 	include __DIR__ . '/../includes/DatabaseFunctions.php';
+	include __DIR__ . '/../classes/DatabaseTable.php';
 	include __DIR__ . '/../classes/Template.php';
 
-	$scouts = getAllOrderBy($pdo, 'scout', 'lastname');
-	$total = countRecords($pdo, 'scout');
+	$db = new DatabaseTable($pdo, 'scout', 'scoutid');
+	$scouts = $db->findAll('lastname');
+	$total = $db->total();
 
 	$data = array(
 		'title' => 'All Scouts',
