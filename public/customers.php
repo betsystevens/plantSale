@@ -1,21 +1,21 @@
 <?php
 session_start();
-
 if(!isset($_SESSION['login'])) { header('location: login.php'); }
+
 include __DIR__ . '/../includes/DatabaseConnection.php';
-include __DIR__ . '/../includes/DatabaseFunctions.php';
 include __DIR__ . '/../includes/helperFunctions.php';
+include __DIR__ . '/../classes/DatabaseTable.php';
+include __DIR__ . '/../classes/Template.php';
 
-$customers = getAllOrderBy($pdo, 'customer', 'lastname');
+$db = new DatabaseTable($pdo, 'customer', 'custID');
+$customers = $db->findAll('lastname');
+$total = $db->total();
 
-$total = countRecords($pdo, 'customer');
+$data = array(
+  'title' => 'All Customers',
+  'customers' => $customers,
+  'total' => $total
+);
 
-$title = 'All Customers';
-
-ob_start();
-
-include __DIR__ . '/../templates/customers.html.php';
-
-$output = ob_get_clean();
-
-include __DIR__ . '/../templates/layout.html.php';
+$view = new Template('customers.html.php', $data);
+echo $view->render();
