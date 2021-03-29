@@ -76,10 +76,10 @@ p {
 /* top container for content */
 .page {
   display: grid;
-  grid-template-rows: 70px auto 32px;
+  grid-template-rows: 70px minmax(100px, auto) 32px;
   grid-template-columns: 2fr 9fr;
   background-color: lightgray;
-  /* border:	3px solid red; */
+  /* border: 3px solid red; */
 }
 .middle {
   margin-top: 20vh;
@@ -140,10 +140,10 @@ nav.top a:hover {
 
 /* Navigation Side*/
 nav.side {
-  position: sticky;
   top: 7rem;
-  align-self: start; /* this makes sticky work */
-  /* border: 1px solid red; */
+  position: sticky;
+  /* this makes sticky work */
+  align-self: start;
 }
 nav.side > ul {
   display: flex;
@@ -177,8 +177,6 @@ nav.side > ul > li > ul > li:hover a {
   color: var(--tumeric);
 }
 main {
-  /* subtract top nav, footer */
-  min-height: calc(100vh - 150px);
   padding-left: 75px;
   padding-right: 75px;
   /* need to understand what happened with this */
@@ -243,12 +241,12 @@ input[id*='addBtn'] {
     to bottom,
     transparent 0,
     transparent 50px,
-    /* #ffa94d 50px, */ #e3e3e3 50px,
-    /* #ffa94d 52px  */ #e3e3e3 52px /* plus 2px here */
+    #e3e3e3 50px,
+    #e3e3e3 52px /* plus 2px here */
   );
   margin-bottom: 50px;
 }
-/* .scouts.list div, .scouts.list form, */
+/* list scouts */
 .scouts.list div,
 .scouts.list .btn,
 .scouts.list a {
@@ -256,13 +254,21 @@ input[id*='addBtn'] {
   justify-self: stretch;
   align-self: center;
 }
-.field {
-  align-self: start;
-}
-.justify-end {
-  justify-self: end;
+.scouts.list form,
+.scouts.list form .btn {
+  align-self: center;
 }
 /* list scouts end */
+
+.self-start {
+  align-self: start;
+}
+.self-center {
+  align-self: center;
+}
+.justify-self-end {
+  justify-self: end;
+}
 
 /* customer layout */
 .custOuter {
@@ -277,7 +283,6 @@ input[id*='addBtn'] {
 div.innerFields {
   padding: 1.8rem;
   flex-basis: 80%;
-  /*border: 1px solid green;*/
 }
 div.custInner {
   border-bottom: 1px solid #ccc;
@@ -289,7 +294,6 @@ div.custInner {
   grid-gap: 25px;
   padding-top: 20px;
   padding-bottom: 20px;
-  /* border-bottom: 1px solid gray; */
   margin-bottom: 15px;
 }
 .grid.three-col {
@@ -366,9 +370,6 @@ div.flower {
 .item {
   margin-right: 30px;
   /* border: 1px solid red; */
-}
-xdiv.header {
-  margin-bottom: 30px;
 }
 div.one {
   margin-bottom: 40px;
