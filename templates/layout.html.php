@@ -19,10 +19,6 @@
 			<li><a href="logout.php">Logout</a></li>
 		</ul>
 	</nav>
-	<header>
-		<!-- <h1> -->
-		<!-- </h1> -->
-	</header>
 	<nav class="side left">
 		<ul>
 			<li>Orders <span class="arrow"> &#x25bc </span> 

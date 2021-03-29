@@ -76,9 +76,7 @@ p {
 /* top container for content */
 .page {
   display: grid;
-  /* when we had a header.... */
-  /* grid-template-rows: 70px 175px auto 15px; */
-  grid-template-rows: 70px 5px auto 30px;
+  grid-template-rows: 70px auto 32px;
   grid-template-columns: 2fr 9fr;
   background-color: lightgray;
   /* border:	3px solid red; */
@@ -94,6 +92,7 @@ nav.top {
   top: 0;
   background-color: var(--blackgray);
   z-index: 5;
+  border-bottom: 5px solid #757575;
 }
 nav.top a.logo {
   font-size: 3rem;
@@ -110,11 +109,6 @@ nav.top a {
 nav.top a:hover {
   color: var(--tumeric);
 }
-header {
-  grid-column: span 2;
-  block-size: 0;
-  border-bottom: 5px solid #757575;
-}
 .home {
   border: 5px solid #757575;
   min-height: calc(100vh - 255px);
@@ -129,22 +123,18 @@ header {
   justify-content: space-around;
   align-items: center;
 }
-.home h1 span,
-header h1 span {
+.home h1 span {
   display: inline-block;
   transition: all 0.8s;
 }
-.home h1:hover span.spin,
-header h1:hover span.spin {
+.home h1:hover span.spin {
   transform: rotate(720deg) scale(1.3);
   color: yellow;
 }
-.home h1:hover span.yellow,
-header h1:hover span.yellow {
+.home h1:hover span.yellow {
   color: yellow;
 }
-.home h1,
-header h1 {
+.home h1 {
   font-size: 4rem;
 }
 
@@ -187,7 +177,7 @@ nav.side > ul > li > ul > li:hover a {
   color: var(--tumeric);
 }
 main {
-  /* subtract top nav, header and foot */
+  /* subtract top nav, footer */
   min-height: calc(100vh - 150px);
   padding-left: 75px;
   padding-right: 75px;
@@ -377,7 +367,7 @@ div.flower {
   margin-right: 30px;
   /* border: 1px solid red; */
 }
-div.header {
+xdiv.header {
   margin-bottom: 30px;
 }
 div.one {
@@ -451,11 +441,11 @@ td {
 }
 footer {
   grid-column: span 2;
-  color: var(--lightgray);
-  background-color: var(--blackgray);
-  font-size: 1.5rem;
 }
 footer p {
   margin: 0;
-  padding: 1rem;
+  padding: 0.8rem;
+  background-color: var(--blackgray);
+  font-size: 1.5rem;
+  color: var(--lightgray);
 }
