@@ -93,6 +93,7 @@ nav.top {
   position: sticky;
   top: 0;
   background-color: var(--blackgray);
+  z-index: 5;
 }
 nav.top a.logo {
   font-size: 3rem;
@@ -118,8 +119,7 @@ header {
   border: 5px solid #757575;
   min-height: calc(100vh - 255px);
 }
-.home,
-header {
+.home {
   background-image: linear-gradient(
     to bottom right,
     var(--tumeric),
