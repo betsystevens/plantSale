@@ -221,12 +221,49 @@ input[type='submit']:focus {
 input[id*='addBtn'] {
   font-size: 1.4rem;
   border-radius: 5px;
+  padding: 4px 8px;
 }
 
-input[id*='addBtn'] {
-  padding: 1px 7px 2px;
+/* Tailwind imitation */
+/* basic flex, box alignment directives */
+.flex {
+  display: flex;
 }
-
+.flex-col {
+  flex-direction: column;
+}
+.space-around {
+  justify-content: space-around;
+}
+/* font */
+.font-semi {
+  font-weight: 600;
+}
+/* widths and heights */
+.w-100 {
+  width: 100px;
+}
+.w-200 {
+  width: 200px;
+}
+.w_300 {
+  width: 300px;
+}
+.h-half {
+  height: 50%;
+}
+.h-third {
+  height: 32%;
+}
+.border-red {
+  border: 1px solid red;
+}
+.border-green {
+  border: 1px solid green;
+}
+.border-blue {
+  border: 1px solid blue;
+}
 /* list scouts begin */
 .scouts.list {
   display: grid;
@@ -331,6 +368,8 @@ input {
   border-radius: 5px;
   border: 2px solid #dadada;
   border-style: inset;
+  /* new */
+  padding: 4px 8px;
 }
 input[type='email'],
 input[type='text'] {
@@ -406,6 +445,7 @@ select {
   font-size: inherit;
   line-height: 1.5;
   width: 200px;
+  padding: 4px 8px;
 }
 form#addOrder,
 #editOrder {
