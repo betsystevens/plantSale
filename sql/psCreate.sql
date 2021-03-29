@@ -63,4 +63,4 @@ create table user
 source insPrice.sql;
 source insFlower.sql;
 source insUser.sql;
-source cust_scout_dump.2019;
+source dumps/cust_scout_dump.2021;

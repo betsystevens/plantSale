@@ -9,5 +9,5 @@ scp.cmds
 ssh.cmd
 
 changesToMake
-dumps/
 ec2/
+sql/dumps/
