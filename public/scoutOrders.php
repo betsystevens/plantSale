@@ -9,7 +9,7 @@
 	
 	$db = new DatabaseTable($pdo, 'scout', 'scoutid');
 	$scouts = $db->findAll('lastname');
-	$scoutId = $_POST['scoutid'] ?? $scouts[0]['scoutid'];
+	$scoutId = $_GET['scoutid'] ?? $scouts[0]['scoutid'];
 
 	$selected = $db->findById($scoutId);
 	$orders = $db->oneScoutsOrders($pdo, $scoutId);

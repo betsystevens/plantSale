@@ -1,6 +1,6 @@
 <h2><?= $title ?></h2>
 
-<form method="post" action="">
+<form method="GET" action="">
     <select id="scout" name="scoutid" onchange="this.form.submit()">
       <?php foreach($scouts as $scout): ?>
         <option value=<?=$scout['scoutid']?>
