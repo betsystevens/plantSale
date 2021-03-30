@@ -5,7 +5,6 @@
 	include __DIR__ . '/../includes/DatabaseConnection.php';
 	include __DIR__ . '/../classes/DatabaseTable.php';
 	include __DIR__ . '/../classes/Template.php';
-
 	
 	$db = new DatabaseTable($pdo, 'scout', 'scoutid');
 	$scouts = $db->findAll('lastname');
@@ -21,8 +20,8 @@
 		'title' => $title, 
 		'scouts' => $scouts,
 		'selectedScout' => $selected['scoutid'],
-		'orders' => $orders,
-		'count' => $count
+		'count' => $count,
+		'orders' => $orders
 	);
 
 	$view = new Template('scoutOrders.html.php', $data);
