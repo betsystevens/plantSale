@@ -224,8 +224,8 @@ input[id*='addBtn'] {
   padding: 4px 8px;
 }
 
-/* Tailwind imitation */
-/* basic flex, box alignment directives */
+/* Tailwind type styles */
+/* basic flex, box alignment */
 .flex {
   display: flex;
 }
@@ -234,6 +234,15 @@ input[id*='addBtn'] {
 }
 .space-around {
   justify-content: space-around;
+}
+.space-between {
+  justify-content: space-between;
+}
+.items-center {
+  align-items: center;
+}
+.text-center {
+  text-align: center;
 }
 /* font */
 .font-semi {
@@ -245,9 +254,6 @@ input[id*='addBtn'] {
 }
 .w-200 {
   width: 200px;
-}
-.w_300 {
-  width: 300px;
 }
 .h-half {
   height: 50%;
