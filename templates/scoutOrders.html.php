@@ -1,9 +1,21 @@
 <h2><?= $title ?></h2>
-<h4>
-  <?= $scout['lastname'] . ', ' .
-      $scout['firstname'] ?>
-</h4>
+
+<form method="post" action="">
+    <select id="scout" name="scoutid" onchange="this.form.submit()">
+      <?php foreach($scouts as $scout): ?>
+        <option value=<?=$scout['scoutid']?>
+          <?php if($scout['scoutid'] == $selectedScout) : ?>
+            selected
+          <?php endif; ?> >
+          <?= $scout['lastname'].', '.$scout['firstname'] ?>
+        </option>
+      <?php endforeach; ?>
+    </select>
+</form>
+
+<h2><?= 'Total Orders: '.$count ?></h2>
 	<?php foreach ($orders as $customer => $order): ?>
+    <br />
     <h4><?= $customer ?><h4>
     <?php foreach ($order as $item): ?>
 	  	<div class="grid five-col">

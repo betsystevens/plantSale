@@ -3,17 +3,26 @@
 	if(!isset($_SESSION['login'])) { header('location: login.php'); }
 
 	include __DIR__ . '/../includes/DatabaseConnection.php';
-	include __DIR__ . '/../includes/DatabaseFunctions.php';
+	include __DIR__ . '/../classes/DatabaseTable.php';
 	include __DIR__ . '/../classes/Template.php';
 
-  $scout = findById($pdo, 'scout', 'scoutid', 24);
-	$orders = oneScoutsOrders($pdo, 24);
+	
+	$db = new DatabaseTable($pdo, 'scout', 'scoutid');
+	$scouts = $db->findAll('lastname');
+	$scoutId = $_POST['scoutid'] ?? $scouts[0]['scoutid'];
 
-	$title = $scout['firstname'].' '.$scout['lastname'].' Orders';
+	$selected = $db->findById($scoutId);
+	$orders = $db->oneScoutsOrders($pdo, $scoutId);
+	$count = sizeof($orders);
+
+	$title = $selected['firstname'].' '.$selected['lastname'];
+
 	$data = array(
 		'title' => $title, 
-		'scout' => $scout,
-		'orders' => $orders
+		'scouts' => $scouts,
+		'selectedScout' => $selected['scoutid'],
+		'orders' => $orders,
+		'count' => $count
 	);
 
 	$view = new Template('scoutOrders.html.php', $data);
