@@ -59,9 +59,6 @@
 					<li>
 						<a href="scoutsTotals.php">Scouts Totals</a>
 					</li>
-					<li>
-						<a href="selectScout.php">Select Scout</a>
-					</li>
 				</ul>
 			</li>			
 			<li>Download<span class="arrow"> &#x25bc </span>
