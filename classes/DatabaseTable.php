@@ -58,6 +58,6 @@ class DatabaseTable {
 			ORDER BY Customer, o.oid, Container DESC, Flower, Variety';
 			$parameters = [ ':sid' => $sid ];				
 			$result = $this->query($sql, $parameters);
-			return $result->fetchAll(PDO::FETCH_GROUP);	
+			return $result->fetchAll(PDO::FETCH_GROUP|PDO::FETCH_ASSOC);	
 	}
 }

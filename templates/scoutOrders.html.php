@@ -1,5 +1,11 @@
-<h2><?= $title ?></h2>
-
+<div>
+<h2>
+  <?= $title ?>
+  <!-- <a href="exportFile.php?report=scoutOrders">Orders</a> -->
+  <a href=<?='exportFile.php?report=scoutOrders&scoutId='.$selectedScout ?>>Orders</a>
+  <!-- <button>click</button> -->
+</h2>
+</div>
 <form method="GET" action="">
     <select id="scout" name="scoutid" onchange="this.form.submit()">
       <?php foreach($scouts as $scout): ?>
