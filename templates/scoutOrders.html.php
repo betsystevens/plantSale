@@ -1,8 +1,7 @@
 <div>
 <h2>
+  <a href=<?='exportFile.php?report=scoutOrders&scoutId='.$selectedScout ?>>( &#x2193 )</a>
   <?= $title ?>
-  <!-- <a href="exportFile.php?report=scoutOrders">Orders</a> -->
-  <a href=<?='exportFile.php?report=scoutOrders&scoutId='.$selectedScout ?>>Orders</a>
   <!-- <button>click</button> -->
 </h2>
 </div>

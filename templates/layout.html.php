@@ -54,10 +54,10 @@
 			<li>Reports <span class="arrow"> &#x25bc </span>
 				<ul>
 					<li>
-						<a href="scoutOrders.php">Scouts Orders</a>
+						<a href="scoutOrders.php">Scout Orders</a>
 					</li>
 					<li>
-						<a href="scoutsTotals.php">Scouts Totals</a>
+						<a href="scoutTotals.php">Scout Totals</a>
 					</li>
 				</ul>
 			</li>			

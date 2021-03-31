@@ -48,7 +48,7 @@
           fputcsv($f, $flower, $delimiter);
         }
       }
-      $filename = "scoutsOrders" . $scoutId . ".csv";
+      $filename = "scoutOrders" . $scoutId . ".csv";
       break;
   }
   
