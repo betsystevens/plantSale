@@ -1,7 +1,10 @@
+.gitignore
 includes/DatabaseConnection.php
 includes/logFile
 docs/
 .vscode/
+.sass-cache/
+public/ps3.css.map
 ahbsps.pem
 sketch/
 
