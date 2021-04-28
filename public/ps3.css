@@ -286,6 +286,7 @@ input[id*='addBtn'] {
 .justify-self-end {
   justify-self: end; }
 
+/* scout orders report */
 .scout-orders a {
   background: none;
   border: 1px solid var(--medgray);
@@ -298,12 +299,16 @@ input[id*='addBtn'] {
 .scout-orders a:hover {
   background: var(--tumeric);
   opacity: 1; }
+.scout-orders .customer-info {
+  margin-bottom: 44px; }
 .scout-orders .grid {
   display: grid;
   grid-template-columns: 50px 150px 180px 160px;
   grid-gap: 5px;
   margin-bottom: 20px;
   border-bottom: 1px dashed gray; }
+  .scout-orders .grid div {
+    font-weight: bold; }
 
 /* customer layout */
 .custOuter {

@@ -59,10 +59,6 @@
 					<li>
 						<a href="scoutTotals.php">Scout Totals</a>
 					</li>
-				</ul>
-			</li>			
-			<li>Download<span class="arrow"> &#x25bc </span>
-				<ul>
 					<li>
 						<a href="exportFile.php?report=flower">Flower Order</a>
 					</li> 

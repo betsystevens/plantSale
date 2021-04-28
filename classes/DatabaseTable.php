@@ -41,6 +41,7 @@ class DatabaseTable {
 	public function oneScoutsOrders($pdo, $sid) {
 		$sql = 
 			'SELECT concat(c.lastname,", ", c.firstname) as "customer",
+			c.address, c.telno, c.email,
 			o.oid as "order",
 			qty, fname as "flower",
 			fvariety as "variety", fcontainer as "container"
