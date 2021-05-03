@@ -38,6 +38,8 @@
     case 'scoutOrders':
       $db = new DatabaseTable($pdo, 'scout', 'scoutid');
       $scoutId = $_GET['scoutId'];
+      $scout = $db->findById($scoutId);
+      $scoutName = $scout['lastname'].$scout['firstname'];
       $result = $db->oneScoutsOrders($pdo, $scoutId);
 
       $fields = array('customer', 'order', 'qty', 'flower','variety', 'container');
@@ -60,7 +62,7 @@
           fputcsv($f, $flower, $delimiter);
         }
       }
-      $filename = "scoutOrders" . $scoutId . ".csv";
+      $filename = $scoutName. '_Orders'. ".csv";
       break;
   }
  

@@ -11,7 +11,17 @@
 	$scoutId = $_GET['scoutid'] ?? $scouts[0]['scoutid'];
 
 	$selected = $db->findById($scoutId);
-	$orders = $db->oneScoutsOrders($pdo, $scoutId);
+	// add groupBy ?? byFlower or byCustomer 
+	// 
+	$groupBy = $_GET['groupBy'];
+
+	if ($groupBy == 'flower') {
+		$orders = $db->oneScoutsOrdersByFlower($pdo, $scoutId);
+	} else {
+		$orders = $db->oneScoutsOrders($pdo, $scoutId);
+	}
+	
+	// var_dump($orders);
 	$count = sizeof($orders);
 
 	$title = $selected['firstname'].' '.$selected['lastname'];
@@ -20,9 +30,14 @@
 		'title' => $title, 
 		'scouts' => $scouts,
 		'selectedScout' => $selected['scoutid'],
+		'groupBy' => $groupBy,
 		'count' => $count,
 		'orders' => $orders
 	);
 
-	$view = new Template('scoutOrders.html.php', $data);
+	if ($groupBy == 'flower') {
+		$view = new Template('scoutOrdersByFlower.html.php', $data);
+	} else {
+		$view = new Template('scoutOrders.html.php', $data);
+	}
 	echo $view->render();
