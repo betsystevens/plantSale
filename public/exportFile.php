@@ -12,6 +12,30 @@
     return $result;
   }
 
+  function groupByCustomer($f, $result) {
+    $delimiter = ",";
+    foreach($result as $key => $order) {
+      $address = $order[0]['address'];
+      if (empty($order[0]['telno'])) 
+      { $telEmail = $order[0]['email']; }
+      elseif (empty($order[0]['email']))
+      { $telEmail = $order[0]['telno'];}
+      else { $telEmail = $order[0]['telno']. ' / ' .$order[0]['email']; }
+      
+      fputcsv($f, [$key], $delimiter);
+      if ($address != '') { $address = '  ' .$address; fputcsv($f, [$address], $delimiter); }
+      if ($telEmail != '') { $telEmail = '  ' .$telEmail; fputcsv($f, [$telEmail], $delimiter); }
+      foreach($order as $flower){
+        array_shift($flower);
+        array_shift($flower);
+        $flower['email'] = "";
+        fputcsv($f, $flower, $delimiter);
+      }
+    }
+    return ($f);
+  }
+
+
   $f = fopen('php://memory', 'w');
   $delimiter = ",";
 
@@ -36,33 +60,25 @@
       }
       break;
     case 'scoutOrders':
-      $db = new DatabaseTable($pdo, 'scout', 'scoutid');
       $scoutId = $_GET['scoutId'];
+      $db = new DatabaseTable($pdo, 'scout', 'scoutid');
       $scout = $db->findById($scoutId);
       $scoutName = $scout['lastname'].$scout['firstname'];
-      $result = $db->oneScoutsOrders($pdo, $scoutId);
-
-      $fields = array('customer', 'order', 'qty', 'flower','variety', 'container');
-      fputcsv($f, $fields, $delimiter);
-      foreach($result as $key => $order) {
-        $address = $order[0]['address'];
-        if (empty($order[0]['telno'])) 
-          { $telEmail = $order[0]['email']; }
-        elseif (empty($order[0]['email']))
-          { $telEmail = $order[0]['telno'];}
-        else { $telEmail = $order[0]['telno']. ' / ' .$order[0]['email']; }
-
-        fputcsv($f, [$key], $delimiter);
-        if ($address != '') { $address = '  ' .$address; fputcsv($f, [$address], $delimiter); }
-        if ($telEmail != '') { $telEmail = '  ' .$telEmail; fputcsv($f, [$telEmail], $delimiter); }
-        foreach($order as $flower){
-          array_shift($flower);
-          array_shift($flower);
-          $flower['email'] = "";
+      if ($_GET['groupBy'] == 'flower') {
+        $filename = $scoutName. '_Flowers'. ".csv";
+        $result = $db->oneScoutsOrdersByFlower($pdo, $scoutId);
+        $fields = array('qty', 'flower', 'variety', 'container');
+        fputcsv($f, $fields, $delimiter);
+        foreach ($result[$scoutId] as $flower) {
           fputcsv($f, $flower, $delimiter);
         }
+      } else {
+        $filename = $scoutName. '_Orders'. ".csv";
+        $result = $db->oneScoutsOrders($pdo, $scoutId);
+        $fields = array('customer', 'order', 'qty', 'flower','variety', 'container');
+        fputcsv($f, $fields, $delimiter);
+        $f = groupByCustomer($f, $result);
       }
-      $filename = $scoutName. '_Orders'. ".csv";
       break;
   }
  
